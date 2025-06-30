@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Board | StudyPlanner</title>
+    <link rel="stylesheet" href="shared.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="clock" id="realtimeClock"></div>
+      <h1>StudyPlanner</h1>
+      <p class="subtitle">Organise Your Study Life</p>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="checkin.html">Daily Check-In</a></li>
+          <li><a href="tasks.html">Task Board</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="welcome-section">
+        <h2>Task Board</h2>
+        <p class="subtitle">Add new tasks, mark them complete, and track what you've achieved.</p>
+      </section>
+
+      <section class="form-card">
+        <form id="taskForm" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; justify-content: space-between;">
+          <div class="input-box">
+            <input type="text" id="taskInput" placeholder="Enter a new task..." required />
+          </div>
+          <div class="input-box">
+            <input type="date" id="dueDateInput" required />
+          </div>
+          <div class="input-box">
+            <select id="priorityInput">
+              <option value="Low">Low Priority</option>
+              <option value="Medium">Medium Priority</option>
+              <option value="High">High Priority</option>
+            </select>
+          </div>
+          <div class="input-box" style="flex: 1 1 250px; min-width: 220px;">
+            <div style="display: flex; gap: 0.5em; align-items: center;">
+              <select id="categoryInput" style="margin-bottom:0.3em; flex: 1 1 60%; min-width: 120px;">
+                <option value="">Select Subject</option>
+                <option value="Maths">Maths</option>
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Biology">Biology</option>
+                <option value="Business Studies">Business Studies</option>
+                <option value="Legal Studies">Legal Studies</option>
+                <option value="English">English</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Economics">Economics</option>
+                <option value="other">Other...</option>
+              </select>
+              <input type="text" id="customCategoryInput" placeholder="Add custom subject and press Enter..." style="margin-bottom:0.3em; display:none; flex: 1 1 40%; min-width: 100px;" />
+            </div>
+          </div>
+          <div class="input-box">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">Recurring:
+              <select id="recurringInput">
+                <option value="none">None</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </label>
+          </div>
+          <div class="input-box" style="align-items: center;">
+            <label style="width: 100%;">Progress:
+              <input type="range" id="progressInput" min="0" max="100" value="0" style="width: 100%;">
+              <span id="progressValue">0%</span>
+            </label>
+          </div>
+          <div class="input-box" style="align-items: center; justify-content: flex-end; margin-top: 2.2rem;">
+            <button type="submit" class="btn" style="width: 100%; margin-top: 0.5rem;">Add Task</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="task-controls" style="margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+        <input type="text" id="searchInput" placeholder="Search tasks..." style="width: 220px; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc;" />
+        <label for="sortTasks" style="font-weight:500; margin-left:0.5rem;">Sort by:</label>
+        <select id="sortTasks" class="sort-dropdown" style="padding:0.4rem 0.7rem; border-radius:6px;">
+          <option value="date-enlisted-desc">Date Enlisted (Newest)</option>
+          <option value="date-enlisted-asc">Date Enlisted (Oldest)</option>
+          <option value="priority-desc">Priority (High to Low)</option>
+          <option value="priority-asc">Priority (Low to High)</option>
+          <option value="due-desc">Days Left (Soonest)</option>
+          <option value="due-asc">Days Left (Furthest)</option>
+          <option value="name-asc">Name (A-Z)</option>
+          <option value="name-desc">Name (Z-A)</option>
+        </select>
+      </section>
+
+      <section class="task-filters" style="margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        <button class="btn" data-filter="all">All</button>
+        <button class="btn" data-filter="completed">Completed</button>
+        <button class="btn" data-filter="today">Due Today</button>
+        <button class="btn" data-filter="week">Due This Week</button>
+        <button class="btn" data-filter="overdue">Overdue</button>
+        <button class="btn" data-filter="active">Active</button>
+      </section>
+
+      <!-- Move the task list outside the form to prevent form submission issues -->
+      <section class="task-list">
+        <ul id="taskItems">
+          <!-- Tasks will be inserted here -->
+        </ul>
+      </section>
+
+      <button class="page-nav-arrow left" id="prevPageBtn" title="Previous Page" style="display:none;"><span>&#x25C0;</span></button>
+      <button class="page-nav-arrow right" id="nextPageBtn" title="Next Page" style="display:none;"><span>&#x25B6;</span></button>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 StudyPlanner | Task Board</p>
+    </footer>
+
+    <script src="tasks.js"></script>
+    <script src="shared.js"></script>
+    <script>
+// === Simple i18n for StudyPlanner (now also applies dark mode) ===
+const translations = {
+  en: {
+    title: "Task Board",
+    subtitle: "Add new tasks, mark them complete, and track what you've achieved.",
+    addTask: "Add Task",
+    taskPlaceholder: "Enter a new task...",
+    dueDate: "Due Date",
+    priority: "Priority",
+    category: "Category or tags",
+    notes: "Notes or description...",
+    recurring: "Recurring:",
+    progress: "Progress:",
+    all: "All",
+    completed: "Completed",
+    today: "Due Today",
+    week: "Due This Week",
+    overdue: "Overdue",
+    active: "Active",
+    high: "High Priority",
+    search: "Search tasks..."
+  },
+  es: {
+    title: "Tablero de Tareas",
+    subtitle: "Agrega nuevas tareas, márcalas como completas y haz seguimiento de tus logros.",
+    addTask: "Agregar Tarea",
+    taskPlaceholder: "Ingresa una nueva tarea...",
+    dueDate: "Fecha de vencimiento",
+    priority: "Prioridad",
+    category: "Categoría o etiquetas",
+    notes: "Notas o descripción...",
+    recurring: "Recurrente:",
+    progress: "Progreso:",
+    all: "Todas",
+    completed: "Completadas",
+    today: "Para Hoy",
+    week: "Esta Semana",
+    overdue: "Atrasadas",
+    active: "Activas",
+    high: "Alta Prioridad",
+    search: "Buscar tareas..."
+  },
+  fr: {
+    title: "Tableau des Tâches",
+    subtitle: "Ajoutez de nouvelles tâches, marquez-les comme terminées et suivez vos réalisations.",
+    addTask: "Ajouter une tâche",
+    taskPlaceholder: "Entrez une nouvelle tâche...",
+    dueDate: "Date d'échéance",
+    priority: "Priorité",
+    category: "Catégorie ou étiquettes",
+    notes: "Notes ou description...",
+    recurring: "Récurrent:",
+    progress: "Progression:",
+    all: "Toutes",
+    completed: "Terminées",
+    today: "Pour aujourd'hui",
+    week: "Cette semaine",
+    overdue: "En retard",
+    active: "Actives",
+    high: "Haute priorité",
+    search: "Rechercher des tâches..."
+  },
+  zh: {
+    title: "任务板",
+    subtitle: "添加新任务，标记完成并跟踪你的成就。",
+    addTask: "添加任务",
+    taskPlaceholder: "输入新任务...",
+    dueDate: "截止日期",
+    priority: "优先级",
+    category: "类别或标签",
+    notes: "备注或描述...",
+    recurring: "重复：",
+    progress: "进度：",
+    all: "全部",
+    completed: "已完成",
+    today: "今天到期",
+    week: "本周到期",
+    overdue: "已逾期",
+    active: "未完成",
+    high: "高优先级",
+    search: "搜索任务..."
+  },
+  hi: {
+    title: "कार्य बोर्ड",
+    subtitle: "नई कार्य जोड़ें, उन्हें पूर्ण करें, और अपनी उपलब्धियों को ट्रैक करें।",
+    addTask: "कार्य जोड़ें",
+    taskPlaceholder: "नई कार्य दर्ज करें...",
+    dueDate: "नियत तारीख",
+    priority: "प्राथमिकता",
+    category: "श्रेणी या टैग",
+    notes: "नोट्स या विवरण...",
+    recurring: "आवृत्ति:",
+    progress: "प्रगति:",
+    all: "सभी",
+    completed: "पूर्ण",
+    today: "आज नियत",
+    week: "इस सप्ताह",
+    overdue: "अतिदेय",
+    active: "सक्रिय",
+    high: "उच्च प्राथमिकता",
+    search: "कार्य खोजें..."
+  }
+};
+
+function applyTranslationsAndTheme() {
+  // Language
+  const lang = localStorage.getItem('language') || 'en';
+  const t = translations[lang] || translations['en'];
+  document.querySelector('.welcome-section h2').textContent = t.title;
+  document.querySelector('.welcome-section p').textContent = t.subtitle;
+  document.getElementById('taskInput').placeholder = t.taskPlaceholder;
+  document.getElementById('dueDateInput').placeholder = t.dueDate;
+  document.getElementById('priorityInput').previousSibling.textContent = t.priority;
+  document.getElementById('categoryInput').previousSibling.textContent = t.category;
+  document.getElementById('notesInput').placeholder = t.notes;
+  document.getElementById('recurringInput').previousSibling.textContent = t.recurring;
+  document.getElementById('progressValue').previousSibling.textContent = t.progress;
+  document.querySelector('#taskForm button[type="submit"]').textContent = t.addTask;
+  document.getElementById('searchInput').placeholder = t.search;
+  const filterBtns = document.querySelectorAll('.task-filters .btn');
+  const filterKeys = ['all','completed','today','week','overdue','active','high'];
+  filterBtns.forEach((btn, i) => btn.textContent = t[filterKeys[i]]);
+
+  // Priority select
+  const priorityInput = document.getElementById('priorityInput');
+  if (priorityInput) {
+    priorityInput.options[0].textContent = t.priority + ' (Low)';
+    priorityInput.options[1].textContent = t.priority + ' (Medium)';
+    priorityInput.options[2].textContent = t.priority + ' (High)';
+  }
+  // Category select
+  const categoryInput = document.getElementById('categoryInput');
+  if (categoryInput) {
+    categoryInput.options[0].textContent = t.category;
+    // Optionally translate subjects if you want
+  }
+  // Recurring select
+  const recurringInput = document.getElementById('recurringInput');
+  if (recurringInput) {
+    recurringInput.options[0].textContent = t.recurring.replace(':','') + ' None';
+    recurringInput.options[1].textContent = t.recurring.replace(':','') + ' Daily';
+    recurringInput.options[2].textContent = t.recurring.replace(':','') + ' Weekly';
+    recurringInput.options[3].textContent = t.recurring.replace(':','') + ' Monthly';
+  }
+
+  // Dark mode
+  const theme = localStorage.getItem('theme');
+  if (theme === 'dark') {
+    document.body.classList.add('dark');
+  } else {
+    document.body.classList.remove('dark');
+  }
+}
+
+// Real-time clock script (standardized to match settings page)
+function updateClock() {
+  const now = new Date();
+  const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+  document.getElementById('realtimeClock').textContent = now.toLocaleTimeString('en-US', options);
+}
+setInterval(updateClock, 1000);
+updateClock(); // initial call to set clock immediately
+
+// Page order for navigation
+const pageOrder = [
+  'index.html',
+  'checkin.html',
+  'tasks.html',
+  'dashboard.html',
+  'settings.html'
+];
+const currentPage = location.pathname.split('/').pop();
+const prevBtn = document.getElementById('prevPageBtn');
+const nextBtn = document.getElementById('nextPageBtn');
+const idx = pageOrder.indexOf(currentPage);
+if (prevBtn && idx > 0) {
+  prevBtn.style.display = '';
+  prevBtn.onclick = () => location.href = pageOrder[idx-1];
+}
+if (nextBtn && idx < pageOrder.length-1) {
+  nextBtn.style.display = '';
+  nextBtn.onclick = () => location.href = pageOrder[idx+1];
+}
+
+document.addEventListener('DOMContentLoaded', applyTranslationsAndTheme);
+window.addEventListener('storage', applyTranslationsAndTheme);
+document.getElementById('categoryInput').addEventListener('change', function() {
+  const custom = document.getElementById('customCategoryInput');
+  if (this.value === 'other') {
+    custom.style.display = '';
+    custom.focus();
+  } else {
+    custom.style.display = 'none';
+    custom.value = '';
+  }
+});
+</script>
+  </body>
+</html>

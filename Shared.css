@@ -1,0 +1,757 @@
+/* === Base Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
+  color: #1a1a1a;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* === Dark Mode === */
+.dark-mode,
+body.dark,
+body.dark-mode {
+  background-color: #121212 !important;
+  color: #f0f0f0 !important;
+}
+.dark-mode header,
+.dark-mode nav,
+.dark-mode footer,
+body.dark header,
+body.dark nav,
+body.dark footer {
+  background-color: #1f1f1f !important;
+  color: #f0f0f0 !important;
+}
+.dark-mode .feature-card,
+.dark-mode .form-card,
+.dark-mode .task-item,
+body.dark .feature-card,
+body.dark-mode .feature-card,
+body.dark .form-card,
+body.dark-mode .form-card,
+body.dark .task-item,
+body.dark-mode .task-item {
+  background-color: #232323 !important;
+  color: #f0f0f0 !important;
+}
+.dark-mode .container,
+body.dark .container,
+body.dark-mode .container {
+  background: transparent !important;
+  color: #f0f0f0 !important;
+}
+.dark-mode h1, .dark-mode h2, .dark-mode h3,
+body.dark h1, body.dark h2, body.dark h3,
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 {
+  color: #fff !important;
+}
+.dark-mode p,
+body.dark p,
+body.dark-mode p {
+  color: #e0e0e0 !important;
+}
+.dark-mode a,
+body.dark a,
+body.dark-mode a {
+  color: #7bb8ff !important;
+}
+/* Fix form fields in dark mode */
+.dark-mode .form-card input,
+.dark-mode .form-card select,
+.dark-mode .form-card textarea,
+body.dark .form-card input,
+body.dark-mode .form-card input,
+body.dark .form-card select,
+body.dark-mode .form-card select,
+body.dark .form-card textarea,
+body.dark-mode .form-card textarea {
+  background: #181a1b !important;
+  color: #f0f0f0 !important;
+  border: 1px solid #444 !important;
+}
+.dark-mode .form-card input::placeholder,
+.dark-mode .form-card textarea::placeholder,
+body.dark .form-card input::placeholder,
+body.dark-mode .form-card input::placeholder,
+body.dark .form-card textarea::placeholder,
+body.dark-mode .form-card textarea::placeholder {
+  color: #bbb !important;
+}
+
+/* === Header === */
+.main-header {
+  text-align: center;
+  background-color: #004080;
+  color: white;
+  padding: 2rem 1rem;
+}
+
+.main-header h1 {
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  font-size: 2.5rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #d0e4ff;
+}
+
+/* === Navigation === */
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+  background-color: #0066cc;
+}
+
+/* === Main Container === */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.welcome-section {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.welcome-section h2 {
+  font-size: 2rem;
+  color: #003366;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-section p {
+  font-size: 1rem;
+  max-width: 800px;
+  margin: 0.5rem auto;
+  color: #111 !important;
+}
+
+/* === Feature Grid === */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card img {
+  width: 48px;
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  color: #004080;
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+/* === Button === */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #0066cc;
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #004c99;
+}
+
+/* === Form Card === */
+.form-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-card input,
+.form-card textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* === Task List === */
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.task-item input[type='checkbox'] {
+  margin-right: 1rem;
+}
+
+.task-item .delete {
+  background: none;
+  border: none;
+  color: #cc0000;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+/* === Footer === */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  background-color: #eaf0f6;
+  color: #666;
+  font-size: 0.875rem;
+  margin-top: 4rem;
+}
+
+/* Settings Specific Buttons */
+.form-card .btn {
+  background-color: #0a55c3;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.form-card .btn:hover {
+  background-color: #0946a2;
+}
+
+.form-card .btn.danger {
+  background-color: #d93636;
+}
+
+.form-card .btn.danger:hover {
+  background-color: #b32b2b;
+}
+
+/* Dark Mode Styling */
+body.dark, body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+body.dark .form-card, body.dark-mode .form-card,
+body.dark .task-item, body.dark-mode .task-item {
+  background: #fff;
+  color: #181a1b;
+}
+body.dark .form-card input,
+body.dark .form-card select,
+body.dark .form-card textarea,
+body.dark-mode .form-card input,
+body.dark-mode .form-card select,
+body.dark-mode .form-card textarea {
+  background: #f4f4f4;
+  color: #181a1b;
+  border: 1px solid #444;
+}
+body.dark .form-card input::placeholder,
+body.dark .form-card textarea::placeholder,
+body.dark-mode .form-card input::placeholder,
+body.dark-mode .form-card textarea::placeholder {
+  color: #888;
+}
+body.dark .task-item label, body.dark-mode .task-item label,
+body.dark .task-item span, body.dark-mode .task-item span {
+  color: #181a1b;
+}
+body.dark .task-item .delete, body.dark-mode .task-item .delete {
+  color: #ff4d4d;
+}
+body.dark .feature-card, body.dark-mode .feature-card {
+  background: #fff;
+  color: #181a1b;
+}
+body.dark .btn, body.dark-mode .btn {
+  background-color: #1a4d8f;
+  color: #fff;
+}
+body.dark .btn:hover, body.dark-mode .btn:hover {
+  background-color: #2566b3;
+}
+body.dark .task-item label, body.dark-mode .task-item label,
+body.dark .task-item span, body.dark-mode .task-item span {
+  color: #f4f4f4;
+}
+body.dark .form-card input,
+body.dark .form-card select,
+body.dark .form-card textarea,
+body.dark-mode .form-card input,
+body.dark-mode .form-card select,
+body.dark-mode .form-card textarea {
+  background: #181a1b;
+  color: #f4f4f4;
+  border: 1px solid #444;
+}
+body.dark .form-card input::placeholder,
+body.dark .form-card textarea::placeholder,
+body.dark-mode .form-card input::placeholder,
+body.dark-mode .form-card textarea::placeholder {
+  color: #bbb;
+}
+body.dark .task-item, body.dark-mode .task-item {
+  border-bottom: 1px solid #333;
+}
+body.dark .task-item .delete, body.dark-mode .task-item .delete {
+  color: #ff4d4d;
+}
+body.dark .task-list, body.dark-mode .task-list {
+  background: transparent;
+}
+body.dark .task-filters .btn.active, body.dark-mode .task-filters .btn.active {
+  background: #2566b3;
+}
+body.dark .task-date, body.dark-mode .task-date {
+  color: #b3d4ff;
+}
+body.dark .reminder, body.dark-mode .reminder {
+  color: #ffb347;
+}
+body.dark .reminder.overdue, body.dark-mode .reminder.overdue {
+  color: #ff4d4d;
+}
+body.dark .task-priority, body.dark-mode .task-priority {
+  color: #ffd700;
+}
+body.dark .task-progress, body.dark-mode .task-progress {
+  color: #b3d4ff;
+}
+body.dark .task-category, body.dark-mode .task-category,
+body.dark .task-notes, body.dark-mode .task-notes {
+  color: #e0e0e0;
+}
+body.dark .main-header, body.dark-mode .main-header {
+  background: #0a2342;
+  color: #fff;
+}
+body.dark .nav-links a, body.dark-mode .nav-links a {
+  color: #fff;
+}
+body.dark .nav-links a:hover, body.dark-mode .nav-links a:hover {
+  background: #2566b3;
+}
+body.dark .container, body.dark-mode .container {
+  background: transparent;
+}
+
+/* GLOBAL DARK MODE STYLES */
+body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark header,
+body.dark nav,
+body.dark footer {
+  background-color: #1c1c1c;
+  color: #ffffff;
+}
+
+body.dark a {
+  color: #7bb8ff;
+}
+
+body.dark .container,
+body.dark .main-header,
+body.dark .welcome-section {
+  background-color: transparent;
+  color: #e0e0e0;
+}
+
+body.dark h1, 
+body.dark h2, 
+body.dark h3 {
+  color: #ffffff;
+}
+
+body, header, nav, footer, .form-card, .btn {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Base light mode */
+header, nav, footer {
+  background-color: #084298;
+  color: #ffffff;
+}
+
+
+
+.impact-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 4rem 1rem;
+  flex-wrap: wrap;
+  background: #f9fbfd;
+}
+
+/* --- IMPACT ROW: perfectly align with feature-grid --- */
+.impact-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 100%;
+  margin: 2.5rem 0 0 0;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: stretch;
+  padding: 0;
+  margin-left: 22px;
+  margin-right: auto;
+}
+
+@media (max-width: 1100px) {
+  .impact-row {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-left: 0; /* Remove margin on mobile for responsiveness */
+  }
+  .impact-column, .info-card {
+    max-width: 90vw;
+    min-width: 250px;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.impact-column, .info-card {
+  min-width: 0;
+  max-width: none;
+  width: 100%;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  text-align: center;
+  margin: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+  transition: box-shadow 0.2s, transform 0.2s;
+  border: 2.5px solid #e3e6ea; /* Thicker border for bottom 4 boxes to match top row visually */
+}
+
+.info-card {
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  font-size: 1rem;
+}
+
+.info-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.info-card p {
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+  margin-top: 1.2rem;
+}
+
+.info-card ul {
+  margin-top: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.impact-column h2,
+.impact-column h3,
+.info-card h3 {
+  color: #004080;
+}
+
+/* Make the graph in the bottom right box slightly bigger vertically */
+#studyStats {
+  max-width: 100%;
+  width: 440px !important;
+  height: 260px !important;
+  min-height: 260px !important;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Make icons and emojis in impact-row smaller */
+.impact-row img,
+.impact-row .info-icon {
+  width: 36px !important;
+  height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
+}
+
+.impact-row img[alt*="emoji"],
+.impact-row img[alt*="Icon"],
+.impact-row img[alt*="icon"] {
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+}
+
+/* Make Smart Study Tips use all vertical space and center content */
+.impact-column.smart-tips {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding-top: 2.2rem;
+  padding-bottom: 2.2rem;
+}
+.impact-column.smart-tips .tip-card {
+  flex: unset;
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* margin: 1.2rem 0; */
+}
+.impact-column.smart-tips .tip-card h3 {
+  margin-bottom: 0.5rem;
+  color: #004080;
+  font-size: 1.1rem;
+}
+.impact-column.smart-tips .tip-card p {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 0;
+}
+.impact-column.smart-tips h2 {
+  margin-bottom: 1.2rem;
+}
+
+/* Make Smart Study Tips emojis/icons larger */
+.impact-column.smart-tips .tip-card img {
+  width: 56px !important;
+  height: 56px !important;
+  max-width: 56px !important;
+  max-height: 56px !important;
+}
+
+/* Font Size Settings */
+body.font-large {
+  font-size: 1.25em;
+}
+body.font-xlarge {
+  font-size: 1.5em;
+}
+
+/* Force all text and backgrounds in .impact-column and .info-card to stay black on white in dark mode, fixing the faded/grey text issue in the lower boxes. */
+body.dark .impact-column, body.dark .info-card, body.dark-mode .impact-column, body.dark-mode .info-card {
+  background: #fff !important;
+  color: #181a1b !important;
+}
+body.dark .impact-column *, body.dark .info-card *,
+body.dark-mode .impact-column *, body.dark-mode .info-card * {
+  color: #181a1b !important;
+}
+
+/* === Export CSV Button === */
+#exportCSV {
+  background-color: #22bb33 !important;
+  color: #fff !important;
+  border: none;
+}
+#exportCSV:hover {
+  background-color: #1a8c27 !important;
+}
+body.dark #exportCSV, body.dark-mode #exportCSV {
+  background-color: #22bb33 !important;
+  color: #fff !important;
+}
+body.dark #exportCSV:hover, body.dark-mode #exportCSV:hover {
+  background-color: #17691d !important;
+}
+
+/* === Page Navigation Arrows === */
+.page-nav-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3002;
+  font-size: 2.5rem;
+  color: #003366;
+  background: #fff;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.2s, background 0.2s, box-shadow 0.2s, transform 0.18s;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.13), 0 1.5px 6px rgba(0,0,0,0.08);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1.5px solid rgba(0,0,0,0.07);
+  padding: 0;
+}
+.page-nav-arrow.left {
+  left: 2vw;
+}
+.page-nav-arrow.right {
+  right: 2vw;
+}
+.page-nav-arrow span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+  font-size: 1.1em;
+}
+.page-nav-arrow:hover {
+  opacity: 1;
+  background: #f4f6f8;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.12);
+  transform: translateY(-50%) scale(1.08);
+}
+.page-nav-arrow[disabled], .page-nav-arrow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+body.dark .page-nav-arrow {
+  color: #fff;
+  background: rgba(20,20,30,0.32);
+  border: 1.5px solid rgba(255,255,255,0.09);
+}
+body.dark .page-nav-arrow:hover {
+  background: rgba(30,30,40,0.7);
+}
+.clock {
+  position: absolute;
+  top: 1.2rem;
+  right: 2rem;
+  font-size: 1.1rem;
+  font-family: 'Segoe UI Mono', 'Consolas', monospace;
+  color: #444;
+  background: rgba(255,255,255,0.7);
+  padding: 0.3em 0.9em;
+  border-radius: 1.2em;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  z-index: 10;
+}
+body.dark .clock, .dark-mode .clock {
+  color: #f0f0f0;
+  background: rgba(30,30,30,0.7);
+}
+
+/* === Input Box Styles === */
+.input-box {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+body.dark .input-box, .dark-mode .input-box {
+  background: none;
+  border: none;
+}
+.input-box:not(:last-child) {
+  border-bottom: none;
+}
+body.dark .input-box:not(:last-child), .dark-mode .input-box:not(:last-child) {
+  border-bottom: none;
+}
+
+/* Add boxed style for each task item in the list */
+.task-item {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  margin-bottom: 0.7rem;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s;
+}
+.task-item:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+body.dark .task-item, .dark-mode .task-item {
+  background: #232323;
+  border: 1px solid #444;
+  color: #f0f0f0;
+}
+body.dark .feature-card, body.dark-mode .feature-card {
+  background: #23272f;
+  color: #f3f6fa;
+}

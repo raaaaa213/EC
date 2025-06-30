@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyPlanner | Home</title>
+    <link rel="stylesheet" href="shared.css" />
+    <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <button class="page-nav-arrow left" id="prevPageBtn" title="Previous Page"><span>&#x25C0;</span></button>
+    <button class="page-nav-arrow right" id="nextPageBtn" title="Next Page"><span>&#x25B6;</span></button>
+    <header class="main-header">
+      <div class="clock" id="realtimeClock"></div>
+      <h1 style="font-family: 'Montserrat', sans-serif;">StudyPlanner</h1>
+      <p class="subtitle">Your Intelligent Academic Assistant</p>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="checkin.html">Daily Check-In</a></li>
+          <li><a href="tasks.html">Task Board</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="welcome-section">
+        <h2>Welcome to StudyPlanner</h2>
+        <p>
+          StudyPlanner is an all-in-one intelligent platform built to support high school students through their academic journey.
+          Track your moods, plan tasks, reflect daily and gain powerful visual insights from data trends.
+        </p>
+      </section>
+
+      <section class="feature-grid">
+        <div class="feature-card">
+          <img src="https://img.icons8.com/fluency/48/combo-chart.png" alt="Dashboard Icon" />
+          <h3>Dashboard</h3>
+          <p>Visualise your performance through mood charts and task summaries.</p>
+          <a href="dashboard.html" class="btn">Go to Dashboard</a>
+        </div>
+
+        <div class="feature-card">
+          <img src="https://img.icons8.com/fluency/48/to-do.png" alt="Check-In Icon" />
+          <h3>Daily Check-In</h3>
+          <p>Log your mood, study focus, and reflections each day with clarity.</p>
+          <a href="checkin.html" class="btn">Start Check-In</a>
+        </div>
+
+        <div class="feature-card">
+          <img src="https://img.icons8.com/fluency/48/task.png" alt="Task Icon" />
+          <h3>Task Board</h3>
+          <p>Stay organised with deadlines, daily targets and smart reminders.</p>
+          <a href="tasks.html" class="btn">View Task Board</a>
+        </div>
+
+        <div class="feature-card">
+          <img src="https://img.icons8.com/fluency/48/settings.png" alt="Settings Icon" />
+          <h3>Settings</h3>
+          <p>Switch themes, reset data or export logs to CSV by adjusting settings.</p>
+          <a href="settings.html" class="btn">Open Settings</a>
+        </div>
+
+        
+      
+        
+      <div class="impact-row">
+        <div class="impact-column why-we-built">
+          <h2>Why We Built <br> StudyPlanner</h2>
+          <p>
+            Over <strong>72%</strong> of high school students report feeling overwhelmed by exam prep and unorganised routines.
+            StudyPlanner was created to help students:
+          </p>
+          <ul style="text-align:left; margin: 1rem auto 1rem 1.5rem; max-width: 90%;">
+            <li>Build better study habits and routines</li>
+            <li>Track moods and reflect on progress daily</li>
+            <li>Reduce stress and avoid burnout</li>
+            <li>Stay organised with tasks and deadlines</li>
+            <li>Gain insights from their own academic data</li>
+          </ul>
+          <p>
+            Our mission is to empower every student to take control of their learning journey and achieve their best, both academically and emotionally.
+          </p>
+          <img src="https://img.icons8.com/emoji/96/graduation-cap-emoji.png" alt="Grad Icon" />
+        </div>
+
+        <div class="info-card">
+          <h3>Evidence-Based Benefits</h3>
+          <p><strong>✔ 45% lower stress</strong> when students track study goals and reflections.</p>
+          <p><strong>✔ 31% more efficient</strong> time use reported in structured planners.</p>
+          <p>Tools like StudyPlanner are backed by research from <em>UNSW Cognitive Science</em> and the <em>NSW Ed. Research Council</em>.</p>
+          <ul>
+            <li>Improved academic focus</li>
+            <li>Healthier workload balance</li>
+            <li>Fewer missed deadlines</li>
+          </ul>
+          <img src="https://img.icons8.com/color/48/bar-chart.png" alt="Benefits Icon" class="info-icon" />
+        </div>
+
+        <div class="impact-column smart-tips">
+          <h2>Smart Study Tips</h2>
+          <div class="tip-card">
+            <img src="https://img.icons8.com/color/96/open-book--v1.png" alt="Plan" />
+            <h3>Plan Ahead</h3>
+            <p>Use the Task Board daily to avoid last-minute stress.</p>
+          </div>
+          <div class="tip-card">
+            <img src="https://img.icons8.com/color/96/mind-map.png" alt="Reflect" />
+            <h3>Reflect Consistently</h3>
+            <p>Use Daily Check-In to stay focused and emotionally aware.</p>
+          </div>
+          <div class="tip-card">
+            <img src="https://img.icons8.com/color/96/combo-chart--v1.png" alt="Track" />
+            <h3>Track Progress</h3>
+            <p>Visit the Dashboard weekly to monitor academic patterns.</p>
+          </div>
+        </div>
+
+        <div class="impact-column">
+          <h2>Key Insights<br> from HSC Students</h2>
+          <p style="margin-bottom:1rem; font-size:1rem;">
+            NSW Department of Education Wellbeing Surveys (Tell Them From Me) reveal:
+            <ul style="text-align:left; margin: 0.5rem auto 1rem 1.5rem; max-width: 90%; font-size:0.98rem;">
+              <li>~70% of students report struggling with time management.</li>
+              <li>Over 60% feel burnt out during the exam lead-up.</li>
+              <li>A significant share miss deadlines due to lack of planning or tracking.</li>
+            </ul>
+          </p>
+          <canvas id="studyStats" width="400" height="300"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <button class="page-nav-arrow left" id="prevPageBtn" title="Previous Page" style="display:none;"><span>&#x25C0;</span></button>
+    <button class="page-nav-arrow right" id="nextPageBtn" title="Next Page" style="display:none;"><span>&#x25B6;</span></button>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('studyStats').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Unorganised', '', 'Missed Deadlines', '', 'Burnout', '', 'No Tracking'],
+      datasets: [{
+        label: '% of Students Affected',
+        data: [72, null, 61, null, 47, null, 85],
+        backgroundColor: '#4a90e2'
+      }]
+    },
+    options: {
+      indexAxis: 'x',
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          ticks: { stepSize: 20, color: '#333' }
+        },
+        x: {
+          ticks: {
+            color: '#333',
+            font: { family: 'Equillbrium, Segoe UI, Arial, sans-serif', size: 10 },
+            maxRotation: 38,
+            minRotation: 38,
+            align: 'center',
+            autoSkip: false,
+            padding: 20
+          },
+          min: -0.5,
+          max: 3.5,
+          grid: { drawTicks: false }
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+// === Simple i18n for StudyPlanner (shared for all pages) ===
+const translations = {
+  en: {
+    homeTitle: "Welcome to StudyPlanner",
+    homeSubtitle: "StudyPlanner is an all-in-one intelligent platform built to support high school students through their academic journey. Track your moods, plan tasks, reflect daily and gain powerful visual insights from data trends.",
+    dashboard: "Dashboard",
+    checkin: "Daily Check-In",
+    tasks: "Task Board",
+    settings: "Settings",
+    goToDashboard: "Go to Dashboard",
+    startCheckin: "Start Check-In",
+    viewTaskBoard: "View Task Board",
+    openSettings: "Open Settings"
+  },
+  es: {
+    homeTitle: "Bienvenido a StudyPlanner",
+    homeSubtitle: "StudyPlanner es una plataforma inteligente todo en uno para apoyar a los estudiantes de secundaria en su viaje académico. Haz seguimiento de tu estado de ánimo, planifica tareas, reflexiona diariamente y obtén potentes perspectivas visuales de las tendencias de datos.",
+    dashboard: "Tablero",
+    checkin: "Registro Diario",
+    tasks: "Tablero de Tareas",
+    settings: "Configuración",
+    goToDashboard: "Ir al Tablero",
+    startCheckin: "Iniciar Registro",
+    viewTaskBoard: "Ver Tareas",
+    openSettings: "Abrir Configuración"
+  },
+  fr: {
+    homeTitle: "Bienvenue sur StudyPlanner",
+    homeSubtitle: "StudyPlanner est une plateforme intelligente tout-en-un pour accompagner les lycéens dans leur parcours académique. Suivez votre humeur, planifiez vos tâches, réfléchissez chaque jour et obtenez des informations visuelles puissantes à partir des tendances de données.",
+    dashboard: "Tableau de bord",
+    checkin: "Bilan quotidien",
+    tasks: "Tableau des Tâches",
+    settings: "Paramètres",
+    goToDashboard: "Aller au Tableau de bord",
+    startCheckin: "Commencer le Bilan",
+    viewTaskBoard: "Voir les Tâches",
+    openSettings: "Ouvrir les Paramètres"
+  },
+  zh: {
+    homeTitle: "欢迎使用 StudyPlanner",
+    homeSubtitle: "StudyPlanner 是一个集成智能平台，旨在支持高中生的学业之旅。跟踪你的情绪，规划任务，每天反思，并从数据趋势中获得强大的可视化洞察。",
+    dashboard: "仪表板",
+    checkin: "每日签到",
+    tasks: "任务板",
+    settings: "设置",
+    goToDashboard: "前往仪表板",
+    startCheckin: "开始签到",
+    viewTaskBoard: "查看任务板",
+    openSettings: "打开设置"
+  },
+  hi: {
+    homeTitle: "StudyPlanner में आपका स्वागत है",
+    homeSubtitle: "StudyPlanner एक ऑल-इन-वन इंटेलिजेंट प्लेटफ़ॉर्म है जो हाई स्कूल छात्रों की शैक्षिक यात्रा का समर्थन करता है। अपने मूड को ट्रैक करें, कार्यों की योजना बनाएं, रोज़ाना चिंतन करें और डेटा रुझानों से शक्तिशाली दृश्य अंतर्दृष्टि प्राप्त करें।",
+    dashboard: "डैशबोर्ड",
+    checkin: "दैनिक चेक-इन",
+    tasks: "कार्य बोर्ड",
+    settings: "सेटिंग्स",
+    goToDashboard: "डैशबोर्ड पर जाएं",
+    startCheckin: "चेक-इन शुरू करें",
+    viewTaskBoard: "कार्य बोर्ड देखें",
+    openSettings: "सेटिंग्स खोलें"
+  }
+};
+
+function applyHomeTranslations() {
+  const lang = localStorage.getItem('language') || 'en';
+  const t = translations[lang] || translations['en'];
+  if(document.querySelector('.welcome-section h2'))
+    document.querySelector('.welcome-section h2').textContent = t.homeTitle;
+  if(document.querySelector('.welcome-section p'))
+    document.querySelector('.welcome-section p').textContent = t.homeSubtitle;
+  const btns = document.querySelectorAll('.feature-card .btn');
+  if(btns.length >= 4) {
+    btns[0].textContent = t.goToDashboard;
+    btns[1].textContent = t.startCheckin;
+    btns[2].textContent = t.viewTaskBoard;
+    btns[3].textContent = t.openSettings;
+  }
+  if(window.applyNavTranslations) window.applyNavTranslations();
+}
+document.addEventListener('DOMContentLoaded', applyHomeTranslations);
+window.addEventListener('storage', applyHomeTranslations);
+</script>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 StudyPlanner | Home Page
+      </p>
+    </footer>
+
+    <button class="page-nav-arrow left" id="prevPageBtn" title="Previous Page" style="display:none;"><span>&#x25C0;</span></button>
+    <button class="page-nav-arrow right" id="nextPageBtn" title="Next Page" style="display:none;"><span>&#x25B6;</span></button>
+    <script src="shared.js"></script>
+    <script>
+// Page order for navigation
+const pageOrder = [
+  'index.html',
+  'checkin.html',
+  'tasks.html',
+  'dashboard.html',
+  'settings.html'
+];
+const currentPage = location.pathname.split('/').pop();
+const prevBtn = document.getElementById('prevPageBtn');
+const nextBtn = document.getElementById('nextPageBtn');
+const idx = pageOrder.indexOf(currentPage);
+if (prevBtn) {
+  prevBtn.style.display = idx > 0 ? 'flex' : 'none';
+  prevBtn.disabled = idx === 0;
+  prevBtn.onclick = idx > 0 ? () => location.href = pageOrder[idx-1] : null;
+}
+if (nextBtn) {
+  nextBtn.style.display = idx < pageOrder.length-1 ? 'flex' : 'none';
+  nextBtn.disabled = idx === pageOrder.length-1;
+  nextBtn.onclick = idx < pageOrder.length-1 ? () => location.href = pageOrder[idx+1] : null;
+}
+</script>
+<script>
+// Real-time clock script (standardized to match settings page)
+function updateClock() {
+  const now = new Date();
+  const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+  document.getElementById('realtimeClock').textContent = now.toLocaleTimeString('en-US', options);
+}
+setInterval(updateClock, 1000);
+updateClock(); // initial call to set clock immediately
+</script>
+  </body>
+</html>
+
+

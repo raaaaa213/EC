@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | StudyPlanner</title>
+    <link rel="stylesheet" href="shared.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <button class="page-nav-arrow left" id="prevPageBtn" title="Previous Page"><span>&#x25C0;</span></button>
+    <button class="page-nav-arrow right" id="nextPageBtn" title="Next Page"><span>&#x25B6;</span></button>
+
+    <header class="main-header">
+      <div class="clock" id="realtimeClock"></div>
+      <h1>StudyPlanner</h1>
+      <p class="subtitle">Track Your Progress Visually</p>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="checkin.html">Daily Check-In</a></li>
+          <li><a href="tasks.html">Task Board</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="welcome-section">
+        <h2>Dashboard Overview</h2>
+        <p>Visualise your study patterns, mood trends, and task completion progress over time.</p>
+      </section>
+
+      <section class="tutorial-section" style="margin-bottom:2.5rem;">
+        <h3 style="margin-bottom:0.7rem;">Dashboard Guide</h3>
+        <div id="tutorialStep" style="font-size:1.08rem; margin-bottom:1.2rem; max-width:600px; margin-left:auto; margin-right:auto;">
+          Welcome! This dashboard shows your mood and task progress. Click 'Next' to see how it works.
+        </div>
+        <div style="display:flex; justify-content:center; gap:1rem;">
+          <button id="tutorialPrev" class="btn" style="display:none;">Previous</button>
+          <button id="tutorialNext" class="btn">Next</button>
+        </div>
+      </section>
+
+      <section class="feature-grid">
+        <div class="feature-card" data-graph="mood">
+          <h3>Mood Over Time</h3>
+          <canvas id="moodChart" width="300" height="200"></canvas>
+        </div>
+        <div class="feature-card" data-graph="hours">
+          <h3>Hours Spent Per Day</h3>
+          <canvas id="hoursChart" width="300" height="200"></canvas>
+        </div>
+        <div class="feature-card" data-graph="task-progress">
+          <h3>Task Progress Overview</h3>
+          <canvas id="taskChart" width="300" height="200"></canvas>
+        </div>
+        <div class="feature-card" data-graph="tasks-added">
+          <h3>Tasks Added Per Day</h3>
+          <canvas id="tasksAddedChart" width="300" height="200"></canvas>
+        </div>
+        <div class="feature-card" data-graph="tasks-completed">
+          <h3>Task Completion Trend</h3>
+          <canvas id="tasksCompletedChart" width="300" height="200"></canvas>
+        </div>
+        <div class="feature-card" data-graph="category">
+          <h3>Category Distribution</h3>
+          <canvas id="categoryChart" width="300" height="200"></canvas>
+        </div>
+        <div class="feature-card" data-graph="priority">
+          <h3>Task Priority Breakdown</h3>
+          <canvas id="priorityChart" width="300" height="200"></canvas>
+        </div>
+        <div class="feature-card" data-graph="overdue">
+          <h3>Overdue Tasks Trend</h3>
+          <canvas id="overdueChart" width="300" height="200"></canvas>
+        </div>
+      </section>
+
+      <!-- Modal for expanded graph -->
+      <div id="graphModal" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); align-items:center; justify-content:center;">
+        <div id="modalContent" style="background:#fff; border-radius:12px; padding:2rem; box-shadow:0 8px 32px rgba(0,0,0,0.18); max-width:90vw; max-height:90vh; display:flex; flex-direction:column; align-items:center;">
+          <button id="closeModal" style="align-self:flex-end; font-size:1.5rem; background:none; border:none; cursor:pointer;">&times;</button>
+          <h3 id="modalTitle"></h3>
+          <div id="modalExplanation" style="margin-bottom:1rem; color:#444;"></div>
+          <canvas id="modalChart" width="600" height="400"></canvas>
+        </div>
+      </div>
+
+      <!-- Remove duplicate navigation arrows in <main> if present
+      Only keep the two at the top of <body> -->
+    </main>
+
+    <footer>
+      <p>&copy; 2025 StudyPlanner | Dashboard Module</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="shared.js"></script>
+    <script>
+// === Simple i18n for StudyPlanner (shared for all pages) ===
+const translations = {
+  en: {
+    dashTitle: "Dashboard Overview",
+    dashSubtitle: "Visualise your study patterns, mood trends, and task completion progress over time.",
+    mood: "Mood Over Time",
+    hours: "Hours Spent Per Day",
+    progress: "Task Completion Rate"
+  },
+  es: {
+    dashTitle: "Resumen del Tablero",
+    dashSubtitle: "Visualiza tus patrones de estudio, tendencias de ánimo y progreso de tareas a lo largo del tiempo.",
+    mood: "Ánimo a lo largo del tiempo",
+    hours: "Horas dedicadas por día",
+    progress: "Tasa de finalización de tareas"
+  },
+  fr: {
+    dashTitle: "Aperçu du Tableau de bord",
+    dashSubtitle: "Visualisez vos habitudes d'étude, tendances d'humeur et progression des tâches au fil du temps.",
+    mood: "Humeur au fil du temps",
+    hours: "Heures passées par jour",
+    progress: "Taux d'achèvement des tâches"
+  },
+  zh: {
+    dashTitle: "仪表板概览",
+    dashSubtitle: "可视化你的学习模式、情绪趋势和任务完成进度。",
+    mood: "情绪变化",
+    hours: "每日学习时长",
+    progress: "任务完成率"
+  },
+  hi: {
+    dashTitle: "डैशबोर्ड अवलोकन",
+    dashSubtitle: "अपने अध्ययन पैटर्न, मूड ट्रेंड्स और कार्य पूर्णता प्रगति को समय के साथ देखें।",
+    mood: "समय के साथ मूड",
+    hours: "प्रति दिन बिताए गए घंटे",
+    progress: "कार्य पूर्णता दर"
+  }
+};
+function applyDashboardTranslations() {
+  const lang = localStorage.getItem('language') || 'en';
+  const t = translations[lang] || translations['en'];
+  if(document.querySelector('.welcome-section h2'))
+    document.querySelector('.welcome-section h2').textContent = t.dashTitle;
+  if(document.querySelector('.welcome-section p'))
+    document.querySelector('.welcome-section p').textContent = t.dashSubtitle;
+  const cards = document.querySelectorAll('.feature-card h3');
+  if(cards.length >= 2) {
+    cards[0].textContent = t.mood;
+    cards[1].textContent = t.hours;
+  }
+  if(window.applyNavTranslations) window.applyNavTranslations();
+}
+document.addEventListener('DOMContentLoaded', applyDashboardTranslations);
+window.addEventListener('storage', applyDashboardTranslations);
+
+// === Tutorial Logic ===
+const tutorialSteps = [
+  "Welcome! This dashboard shows your mood and task progress. Click 'Next' to see how it works.",
+  "This graph shows your mood over time. A higher mood score means a better mood!",
+  "This graph shows your task completion rate. Aim for a higher percentage!",
+  "You're all set! Use the Task Board and Daily Check-In for detailed tracking."
+];
+let currentStep = 0;
+const tutorialStepDiv = document.getElementById('tutorialStep');
+const tutorialNextBtn = document.getElementById('tutorialNext');
+const tutorialPrevBtn = document.getElementById('tutorialPrev');
+
+function updateTutorialStep() {
+  tutorialStepDiv.textContent = tutorialSteps[currentStep];
+  tutorialPrevBtn.style.display = currentStep === 0 ? 'none' : '';
+  tutorialNextBtn.textContent = currentStep === tutorialSteps.length - 1 ? 'Finish' : 'Next';
+}
+
+tutorialNextBtn.addEventListener('click', () => {
+  if (currentStep < tutorialSteps.length - 1) {
+    currentStep++;
+    updateTutorialStep();
+  } else {
+    // Finish tutorial, maybe navigate to another page or just hide tutorial
+    document.querySelector('.tutorial-section').style.display = 'none';
+  }
+});
+
+tutorialPrevBtn.addEventListener('click', () => {
+  if (currentStep > 0) {
+    currentStep--;
+    updateTutorialStep();
+  }
+});
+
+updateTutorialStep();
+
+// === Dashboard Overview Navigation Arrows ===
+document.addEventListener('DOMContentLoaded', function() {
+  // Remove any duplicate arrows in <main>
+  var mainArrows = document.querySelectorAll('main .page-nav-arrow');
+  mainArrows.forEach(function(btn) { btn.remove(); });
+
+  // Setup navigation for the two arrows at the top of <body>
+  var prevBtn = document.getElementById('prevPageBtn');
+  var nextBtn = document.getElementById('nextPageBtn');
+  if (prevBtn) {
+    prevBtn.style.display = 'flex';
+    prevBtn.disabled = false;
+    prevBtn.tabIndex = 0;
+    prevBtn.setAttribute('aria-label', 'Go to Task Board');
+    prevBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'tasks.html';
+    });
+    prevBtn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.location.href = 'tasks.html';
+      }
+    });
+  }
+  if (nextBtn) {
+    nextBtn.style.display = 'flex';
+    nextBtn.disabled = false;
+    nextBtn.tabIndex = 0;
+    nextBtn.setAttribute('aria-label', 'Go to Settings');
+    nextBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'settings.html';
+    });
+    nextBtn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        window.location.href = 'settings.html';
+      }
+    });
+  }
+});
+
+// Real-time clock script (standardized to match settings page)
+function updateClock() {
+  const now = new Date();
+  const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+  document.getElementById('realtimeClock').textContent = now.toLocaleTimeString('en-US', options);
+}
+setInterval(updateClock, 1000);
+updateClock(); // initial call to set clock immediately
+    </script>
+  </body>
+</html>

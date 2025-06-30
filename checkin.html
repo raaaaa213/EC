@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Check-In | StudyPlanner</title>
+    <link rel="stylesheet" href="shared.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="clock" id="realtimeClock"></div>
+      <h1>StudyPlanner</h1>
+      <p class="subtitle">Daily Mood & Study Reflection</p>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="checkin.html">Daily Check-In</a></li>
+          <li><a href="tasks.html">Task Board</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="welcome-section">
+        <h2>Daily Check-In</h2>
+        <p>Log how you’re feeling, what you studied, and what your goals are for tomorrow.</p>
+      </section>
+
+      <form id="checkinForm" class="form-card">
+        <label for="mood">Mood (1–5):</label>
+        <input type="range" id="mood" name="mood" min="1" max="5" step="1" required />
+        <div id="mood-indicators" style="display: flex; justify-content: space-between; margin: 0.2rem 0 1rem 0; font-size: 1.3rem;">
+          <span>😞</span>
+          <span>😕</span>
+          <span>😐</span>
+          <span>🙂</span>
+          <span>😄</span>
+        </div>
+
+        <label for="reflection">Reflection:</label>
+        <textarea id="reflection" name="reflection" rows="4" required placeholder="What went well? What could improve?"></textarea>
+
+        <label for="hours">Study Hours:</label>
+        <input type="number" id="hours" name="hours" min="0" max="24" required />
+
+        <label for="goal">Tomorrow’s Goal:</label>
+        <input type="text" id="goal" name="goal" required placeholder="e.g. Revise Biology notes" />
+
+        <button type="submit" class="btn">Submit Entry</button>
+        <div id="checkinCooldown" style="margin-top:0.7em; font-size:1.05em; color:#c00; font-weight:500;"></div>
+      </form>
+
+      <div class="checkin-viewer">
+        <h3>Advanced</h3>
+        <div style="font-size:0.98rem; color:#444; margin-bottom:0.5rem;">Toggle and view check-ins for any date or year.</div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <button id="prevMonthBtn" type="button" class="btn" style="padding: 0 0.8em; min-width: 2.2em;">&#x25C0;&#x25C0;</button>
+          <button id="prevDateBtn" type="button" class="btn" style="padding: 0 0.8em; min-width: 2.2em;">&#x25C0;</button>
+          <input type="date" id="viewDate" />
+          <button id="nextDateBtn" type="button" class="btn" style="padding: 0 0.8em; min-width: 2.2em;">&#x25B6;</button>
+          <button id="nextMonthBtn" type="button" class="btn" style="padding: 0 0.8em; min-width: 2.2em;">&#x25B6;&#x25B6;</button>
+        </div>
+        <div id="checkinDisplay" class="checkin-display"></div>
+      </div>
+
+      <button class="page-nav-arrow left" id="prevPageBtn" title="Previous Page" style="display:none;"><span>&#x25C0;</span></button>
+      <button class="page-nav-arrow right" id="nextPageBtn" title="Next Page" style="display:none;"><span>&#x25B6;</span></button>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 StudyPlanner | Daily Check-In</p>
+    </footer>
+
+    <script src="checkin.js"></script>
+    <script src="shared.js"></script>
+    <script>
+// === Simple i18n for StudyPlanner (shared for all pages) ===
+const translations = {
+  en: {
+    checkinTitle: "Daily Check-In",
+    checkinSubtitle: "Log how you’re feeling, what you studied, and what your goals are for tomorrow.",
+    mood: "Mood (1–5):",
+    reflection: "Reflection:",
+    hours: "Study Hours:",
+    goal: "Tomorrow’s Goal:",
+    submit: "Submit Entry",
+    viewPast: "View Past Check-In",
+    viewBtn: "View Check-In"
+  },
+  es: {
+    checkinTitle: "Registro Diario",
+    checkinSubtitle: "Registra cómo te sientes, qué estudiaste y cuáles son tus metas para mañana.",
+    mood: "Ánimo (1–5):",
+    reflection: "Reflexión:",
+    hours: "Horas de estudio:",
+    goal: "Meta para mañana:",
+    submit: "Enviar entrada",
+    viewPast: "Ver registro anterior",
+    viewBtn: "Ver registro"
+  },
+  fr: {
+    checkinTitle: "Bilan quotidien",
+    checkinSubtitle: "Consignez comment vous vous sentez, ce que vous avez étudié et vos objectifs pour demain.",
+    mood: "Humeur (1–5):",
+    reflection: "Réflexion:",
+    hours: "Heures d'étude:",
+    goal: "Objectif de demain:",
+    submit: "Soumettre l'entrée",
+    viewPast: "Voir le bilan précédent",
+    viewBtn: "Voir le bilan"
+  },
+  zh: {
+    checkinTitle: "每日签到",
+    checkinSubtitle: "记录你的感受、学习内容和明天的目标。",
+    mood: "心情 (1–5):",
+    reflection: "反思：",
+    hours: "学习时长：",
+    goal: "明日目标：",
+    submit: "提交记录",
+    viewPast: "查看过往签到",
+    viewBtn: "查看签到"
+  },
+  hi: {
+    checkinTitle: "दैनिक चेक-इन",
+    checkinSubtitle: "आज कैसा महसूस कर रहे हैं, क्या पढ़ा और कल के लिए लक्ष्य क्या है, दर्ज करें।",
+    mood: "मूड (1–5):",
+    reflection: "चिंतन:",
+    hours: "अध्ययन घंटे:",
+    goal: "कल का लक्ष्य:",
+    submit: "प्रविष्टि सबमिट करें",
+    viewPast: "पिछला चेक-इन देखें",
+    viewBtn: "चेक-इन देखें"
+  }
+};
+function applyCheckinTranslations() {
+  const lang = localStorage.getItem('language') || 'en';
+  const t = translations[lang] || translations['en'];
+  if(document.querySelector('.welcome-section h2'))
+    document.querySelector('.welcome-section h2').textContent = t.checkinTitle;
+  if(document.querySelector('.welcome-section p'))
+    document.querySelector('.welcome-section p').textContent = t.checkinSubtitle;
+  const form = document.getElementById('checkinForm');
+  if(form) {
+    form.querySelector('label[for="mood"]').textContent = t.mood;
+    form.querySelector('label[for="reflection"]').textContent = t.reflection;
+    form.querySelector('label[for="hours"]').textContent = t.hours;
+    form.querySelector('label[for="goal"]').textContent = t.goal;
+    form.querySelector('button[type="submit"]').textContent = t.submit;
+  }
+  if(document.querySelector('.checkin-viewer h3'))
+    document.querySelector('.checkin-viewer h3').textContent = t.viewPast;
+  if(document.getElementById('viewCheckinBtn'))
+    document.getElementById('viewCheckinBtn').textContent = t.viewBtn;
+  if(window.applyNavTranslations) window.applyNavTranslations();
+}
+document.addEventListener('DOMContentLoaded', applyCheckinTranslations);
+window.addEventListener('storage', applyCheckinTranslations);
+
+// Page order for navigation
+const pageOrder = [
+  'index.html',
+  'checkin.html',
+  'tasks.html',
+  'dashboard.html',
+  'settings.html'
+];
+const currentPage = location.pathname.split('/').pop();
+const prevBtn = document.getElementById('prevPageBtn');
+const nextBtn = document.getElementById('nextPageBtn');
+const idx = pageOrder.indexOf(currentPage);
+if (prevBtn && idx > 0) {
+  prevBtn.style.display = '';
+  prevBtn.onclick = () => location.href = pageOrder[idx-1];
+}
+if (nextBtn && idx < pageOrder.length-1) {
+  nextBtn.style.display = '';
+  nextBtn.onclick = () => location.href = pageOrder[idx+1];
+}
+
+// === Realtime Clock ===
+// Real-time clock script (standardized to match settings page)
+function updateClock() {
+  const now = new Date();
+  const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+  document.getElementById('realtimeClock').textContent = now.toLocaleTimeString('en-US', options);
+}
+setInterval(updateClock, 1000);
+updateClock(); // initial call to set clock immediately
+    </script>
+  </body>
+</html>
