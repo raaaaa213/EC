@@ -7,18 +7,17 @@
     <link rel="stylesheet" href="Shared.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
   </head>
-  <body>
+  <body data-page="tasks">
     <header class="main-header">
       <div class="clock" id="realtimeClock"></div>
-      <h1>StudyPlanner</h1>
-      <p class="subtitle">Organise Your Study Life</p>
+      <h1 id="bannerTitle">StudyPlanner</h1>
+      <p class="subtitle" id="bannerSubtitle"></p>
       <nav>
         <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="checkin.html">Daily Check-In</a></li>
-          <li><a href="tasks.html">Task Board</a></li>
-          <li><a href="settings.html">Settings</a></li>
+          <li><a href="index.html" id="nav-home">Home</a></li>
+          <li><a href="checkin.html" id="nav-checkin">Daily Check-In</a></li>
+          <li><a href="tasks.html" id="nav-tasks">Task Board</a></li>
+          <li><a href="settings.html" id="nav-settings">Settings</a></li>
         </ul>
       </nav>
     </header>
@@ -311,8 +310,13 @@ if (nextBtn && idx < pageOrder.length-1) {
   nextBtn.onclick = () => location.href = pageOrder[idx+1];
 }
 
-document.addEventListener('DOMContentLoaded', applyTranslationsAndTheme);
-window.addEventListener('storage', applyTranslationsAndTheme);
+document.addEventListener('DOMContentLoaded', function() {
+  applyTranslationsAndTheme();
+});
+window.addEventListener('storage', function(e) {
+  if (e.key === 'language') applyBannerTranslations();
+  applyTranslationsAndTheme();
+});
 document.getElementById('categoryInput').addEventListener('change', function() {
   const custom = document.getElementById('customCategoryInput');
   if (this.value === 'other') {

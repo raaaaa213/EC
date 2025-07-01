@@ -8,13 +8,13 @@
     <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
   </head>
-  <body>
+  <body data-page="index">
     <button class="page-nav-arrow left" id="prevPageBtn" title="Previous Page"><span>&#x25C0;</span></button>
     <button class="page-nav-arrow right" id="nextPageBtn" title="Next Page"><span>&#x25B6;</span></button>
     <header class="main-header">
       <div class="clock" id="realtimeClock"></div>
-      <h1 style="font-family: 'Montserrat', sans-serif;">StudyPlanner</h1>
-      <p class="subtitle">Your Intelligent Academic Assistant</p>
+      <h1 id="bannerTitle" style="font-family: 'Montserrat', sans-serif;">StudyPlanner</h1>
+      <p class="subtitle" id="bannerSubtitle"></p>
       <nav>
         <ul class="nav-links">
           <a href="dashboard.html">Dashboard</a>
@@ -132,53 +132,39 @@
         </div>
       </div>
     </section>
+    </main>
 
-    <button class="page-nav-arrow left" id="prevPageBtn" title="Previous Page" style="display:none;"><span>&#x25C0;</span></button>
-    <button class="page-nav-arrow right" id="nextPageBtn" title="Next Page" style="display:none;"><span>&#x25B6;</span></button>
+    <footer>
+      <p>&copy; 2025 StudyPlanner | Home Page</p>
+    </footer>
+
+    <script src="Shared.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+    <script>
+// --- Chart update helper for i18n ---
+window.updateStudyStatsChart = function(t) {
   const ctx = document.getElementById('studyStats').getContext('2d');
-  new Chart(ctx, {
+  if (window.studyStatsChart) window.studyStatsChart.destroy();
+  window.studyStatsChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Unorganised', '', 'Missed Deadlines', '', 'Burnout', '', 'No Tracking'],
+      labels: t.chartLabels,
       datasets: [{
-        label: '% of Students Affected',
+        label: t.chartLabel,
         data: [72, null, 61, null, 47, null, 85],
         backgroundColor: '#4a90e2'
       }]
     },
     options: {
       indexAxis: 'x',
-      plugins: {
-        legend: { display: false }
-      },
+      plugins: { legend: { display: false } },
       scales: {
-        y: {
-          beginAtZero: true,
-          max: 100,
-          ticks: { stepSize: 20, color: '#333' }
-        },
-        x: {
-          ticks: {
-            color: '#333',
-            font: { family: 'Equillbrium, Segoe UI, Arial, sans-serif', size: 10 },
-            maxRotation: 38,
-            minRotation: 38,
-            align: 'center',
-            autoSkip: false,
-            padding: 20
-          },
-          min: -0.5,
-          max: 3.5,
-          grid: { drawTicks: false }
-        }
+        y: { beginAtZero: true, max: 100, ticks: { stepSize: 20, color: '#333' } },
+        x: { ticks: { color: '#333', font: { family: 'Equillbrium, Segoe UI, Arial, sans-serif', size: 10 }, maxRotation: 38, minRotation: 38, align: 'center', autoSkip: false, padding: 20 }, min: -0.5, max: 3.5, grid: { drawTicks: false } }
       }
     }
   });
-</script>
-
-<script>
+};
 // === Simple i18n for StudyPlanner (shared for all pages) ===
 const translations = {
   en: {
@@ -191,7 +177,45 @@ const translations = {
     goToDashboard: "Go to Dashboard",
     startCheckin: "Start Check-In",
     viewTaskBoard: "View Task Board",
-    openSettings: "Open Settings"
+    openSettings: "Open Settings",
+    whyTitle: "Why We Built <br> StudyPlanner",
+    whyList: [
+      "Build better study habits and routines",
+      "Track moods and reflect on progress daily",
+      "Reduce stress and avoid burnout",
+      "Stay organised with tasks and deadlines",
+      "Gain insights from their own academic data"
+    ],
+    whyMission: "Our mission is to empower every student to take control of their learning journey and achieve their best, both academically and emotionally.",
+    evidenceTitle: "Evidence-Based Benefits",
+    evidence1: "✔ 45% lower stress when students track study goals and reflections.",
+    evidence2: "✔ 31% more efficient time use reported in structured planners.",
+    evidence3: "Tools like StudyPlanner are backed by research from <em>UNSW Cognitive Science</em> and the <em>NSW Ed. Research Council</em>.",
+    evidenceList: [
+      "Improved academic focus",
+      "Healthier workload balance",
+      "Fewer missed deadlines"
+    ],
+    tipsTitle: "Smart Study Tips",
+    tip1Title: "Plan Ahead",
+    tip1Text: "Use the Task Board daily to avoid last-minute stress.",
+    tip2Title: "Reflect Consistently",
+    tip2Text: "Use Daily Check-In to stay focused and emotionally aware.",
+    tip3Title: "Track Progress",
+    tip3Text: "Visit the Dashboard weekly to monitor academic patterns.",
+    insightsTitle: "Key Insights<br> from HSC Students",
+    insightsIntro: "NSW Department of Education Wellbeing Surveys (Tell Them From Me) reveal:",
+    insightsList: [
+      "~70% of students report struggling with time management.",
+      "Over 60% feel burnt out during the exam lead-up.",
+      "A significant share miss deadlines due to lack of planning or tracking."
+    ],
+    chartLabel: "% of Students Affected",
+    chartLabels: ["Unorganised", "", "Missed Deadlines", "", "Burnout", "", "No Tracking"],
+    dashboardCardDesc: "Visualise your performance through mood charts and task summaries.",
+    checkinCardDesc: "Log your mood, study focus, and reflections each day with clarity.",
+    tasksCardDesc: "Stay organised with deadlines, daily targets and smart reminders.",
+    settingsCardDesc: "Switch themes, reset data or export logs to CSV by adjusting settings."
   },
   es: {
     homeTitle: "Bienvenido a StudyPlanner",
@@ -203,7 +227,45 @@ const translations = {
     goToDashboard: "Ir al Tablero",
     startCheckin: "Iniciar Registro",
     viewTaskBoard: "Ver Tareas",
-    openSettings: "Abrir Configuración"
+    openSettings: "Abrir Configuración",
+    whyTitle: "Por qué construimos <br> StudyPlanner",
+    whyList: [
+      "Desarrollar mejores hábitos y rutinas de estudio",
+      "Rastrear estados de ánimo y reflexionar sobre el progreso diario",
+      "Reducir el estrés y evitar el agotamiento",
+      "Mantenerse organizado con tareas y plazos",
+      "Obtener información de sus propios datos académicos"
+    ],
+    whyMission: "Nuestra misión es empoderar a cada estudiante para que tome el control de su viaje de aprendizaje y logre lo mejor, tanto académica como emocionalmente.",
+    evidenceTitle: "Beneficios Basados en Evidencia",
+    evidence1: "✔ 45% menos estrés cuando los estudiantes rastrean metas de estudio y reflexiones.",
+    evidence2: "✔ 31% más eficiente en el uso del tiempo reportado en planificadores estructurados.",
+    evidence3: "Herramientas como StudyPlanner están respaldadas por investigaciones de <em>UNSW Cognitive Science</em> y el <em>NSW Ed. Research Council</em>.",
+    evidenceList: [
+      "Mejora del enfoque académico",
+      "Equilibrio más saludable de la carga de trabajo",
+      "Menos plazos perdidos"
+    ],
+    tipsTitle: "Consejos de Estudio Inteligentes",
+    tip1Title: "Planifica con Anticipación",
+    tip1Text: "Utiliza el Tablero de Tareas a diario para evitar el estrés de última hora.",
+    tip2Title: "Reflexiona de Manera Consistente",
+    tip2Text: "Utiliza el Registro Diario para mantenerte enfocado y emocionalmente consciente.",
+    tip3Title: "Rastrea el Progreso",
+    tip3Text: "Visita el Tablero semanalmente para monitorear patrones académicos.",
+    insightsTitle: "Perspectivas Clave<br> de Estudiantes de HSC",
+    insightsIntro: "Las Encuestas de Bienestar del Departamento de Educación de NSW (Diles Desde Aquí) revelan:",
+    insightsList: [
+      "~70% de los estudiantes informan que tienen dificultades con la gestión del tiempo.",
+      "Más del 60% se sienten agotados durante el período previo a los exámenes.",
+      "Una parte significativa no cumple con los plazos debido a la falta de planificación o seguimiento."
+    ],
+    chartLabel: "% de Estudiantes Afectados",
+    chartLabels: ["Desorganizado", "", "Plazos Perdidos", "", "Agotamiento", "", "Sin Seguimiento"],
+    dashboardCardDesc: "Visualiza tu rendimiento a través de gráficos de estado de ánimo y resúmenes de tareas.",
+    checkinCardDesc: "Registra tu estado de ánimo, enfoque de estudio y reflexiones cada día con claridad.",
+    tasksCardDesc: "Mantente organizado con plazos, objetivos diarios y recordatorios inteligentes.",
+    settingsCardDesc: "Cambia de tema, restablece datos o exporta registros a CSV ajustando la configuración."
   },
   fr: {
     homeTitle: "Bienvenue sur StudyPlanner",
@@ -215,7 +277,45 @@ const translations = {
     goToDashboard: "Aller au Tableau de bord",
     startCheckin: "Commencer le Bilan",
     viewTaskBoard: "Voir les Tâches",
-    openSettings: "Ouvrir les Paramètres"
+    openSettings: "Ouvrir les Paramètres",
+    whyTitle: "Pourquoi nous avons créé <br> StudyPlanner",
+    whyList: [
+      "Développer de meilleures habitudes et routines d'étude",
+      "Suivre les humeurs et réfléchir sur les progrès quotidiens",
+      "Réduire le stress et éviter l'épuisement",
+      "Rester organisé avec les tâches et les délais",
+      "Obtenir des insights à partir de leurs propres données académiques"
+    ],
+    whyMission: "Notre mission est d'autonomiser chaque étudiant à prendre le contrôle de son parcours d'apprentissage et à atteindre son meilleur, tant sur le plan académique qu'émotionnel.",
+    evidenceTitle: "Avantages Basés sur des Preuves",
+    evidence1: "✔ 45% de stress en moins lorsque les étudiants suivent leurs objectifs d'étude et leurs réflexions.",
+    evidence2: "✔ 31% d'utilisation du temps en plus efficace signalée dans les planificateurs structurés.",
+    evidence3: "Des outils comme StudyPlanner sont soutenus par des recherches de <em>UNSW Cognitive Science</em> et du <em>NSW Ed. Research Council</em>.",
+    evidenceList: [
+      "Amélioration de la concentration académique",
+      "Équilibre de charge de travail plus sain",
+      "Moins de délais manqués"
+    ],
+    tipsTitle: "Astuces d'Étude Intelligentes",
+    tip1Title: "Planifiez à l'Avance",
+    tip1Text: "Utilisez le Tableau de Tâches quotidiennement pour éviter le stress de dernière minute.",
+    tip2Title: "Réfléchissez de Manière Cohérente",
+    tip2Text: "Utilisez le Bilan quotidien pour rester concentré et émotionnellement conscient.",
+    tip3Title: "Suivez vos Progrès",
+    tip3Text: "Visitez le Tableau de bord chaque semaine pour surveiller les modèles académiques.",
+    insightsTitle: "Insights Clés<br> des Étudiants HSC",
+    insightsIntro: "Les Enquêtes sur le Bien-être du Département de l'Éducation de NSW (Dites-leur de ma Part) révèlent :",
+    insightsList: [
+      "~70% des étudiants signalent des difficultés de gestion du temps.",
+      "Plus de 60% se sentent épuisés pendant la période précédant les examens.",
+      "Une part importante ne respecte pas les délais en raison d'un manque de planification ou de suivi."
+    ],
+    chartLabel: "% d'Étudiants Affectés",
+    chartLabels: ["Désorganisé", "", "Délais Manqués", "", "Épuisement", "", "Pas de Suivi"],
+    dashboardCardDesc: "Visualisez vos performances grâce à des graphiques d'humeur et des résumés de tâches.",
+    checkinCardDesc: "Enregistrez votre humeur, votre concentration et vos réflexions chaque jour avec clarté.",
+    tasksCardDesc: "Restez organisé avec des délais, des objectifs quotidiens et des rappels intelligents.",
+    settingsCardDesc: "Changez de thème, réinitialisez les données ou exportez des journaux au format CSV en ajustant les paramètres."
   },
   zh: {
     homeTitle: "欢迎使用 StudyPlanner",
@@ -227,7 +327,45 @@ const translations = {
     goToDashboard: "前往仪表板",
     startCheckin: "开始签到",
     viewTaskBoard: "查看任务板",
-    openSettings: "打开设置"
+    openSettings: "打开设置",
+    whyTitle: "我们构建 StudyPlanner 的原因",
+    whyList: [
+      "建立更好的学习习惯和日常安排",
+      "跟踪情绪并每天反思进展",
+      "减轻压力，避免倦怠",
+      "通过任务和截止日期保持组织",
+      "从自己的学术数据中获得洞察"
+    ],
+    whyMission: "我们的使命是赋予每个学生掌控自己的学习旅程的能力，帮助他们在学业和情感上都能取得最佳表现。",
+    evidenceTitle: "基于证据的好处",
+    evidence1: "✔ 当学生跟踪学习目标和反思时，压力降低 45%。",
+    evidence2: "✔ 在结构化计划中报告的时间利用效率提高 31%。",
+    evidence3: "像 StudyPlanner 这样的工具得到了 <em>UNSW Cognitive Science</em> 和 <em>NSW Ed. Research Council</em> 的研究支持。",
+    evidenceList: [
+      "改善学术专注力",
+      "更健康的工作量平衡",
+      "更少的截止日期错过"
+    ],
+    tipsTitle: "智能学习技巧",
+    tip1Title: "提前计划",
+    tip1Text: "每天使用任务板，以避免最后一刻的压力。",
+    tip2Title: "持续反思",
+    tip2Text: "使用每日签到保持专注和情感上的觉察。",
+    tip3Title: "跟踪进度",
+    tip3Text: "每周访问仪表板，以监控学术模式。",
+    insightsTitle: "来自 HSC 学生的关键见解",
+    insightsIntro: "新南威尔士州教育部的幸福调查（Tell Them From Me）显示：",
+    insightsList: [
+      "~70% 的学生报告说时间管理困难。",
+      "超过 60% 的学生在考试前夕感到疲惫不堪。",
+      "由于缺乏计划或跟踪，很多学生错过了截止日期。"
+    ],
+    chartLabel: "受影响学生的百分比",
+    chartLabels: ["无组织", "", "错过截止日期", "", "倦怠", "", "无跟踪"],
+    dashboardCardDesc: "通过情绪图表和任务摘要可视化您的表现。",
+    checkinCardDesc: "清晰地记录您的情绪、学习重点和每日反思。",
+    tasksCardDesc: "通过截止日期、每日目标和智能提醒保持组织。",
+    settingsCardDesc: "通过调整设置切换主题、重置数据或导出日志到 CSV。"
   },
   hi: {
     homeTitle: "StudyPlanner में आपका स्वागत है",
@@ -239,7 +377,45 @@ const translations = {
     goToDashboard: "डैशबोर्ड पर जाएं",
     startCheckin: "चेक-इन शुरू करें",
     viewTaskBoard: "कार्य बोर्ड देखें",
-    openSettings: "सेटिंग्स खोलें"
+    openSettings: "सेटिंग्स खोलें",
+    whyTitle: "हमने StudyPlanner क्यों बनाया",
+    whyList: [
+      "बेहतर अध्ययन आदतें और दिनचर्या बनाना",
+      "मूड ट्रैक करें और दैनिक प्रगति पर विचार करें",
+      "तनाव कम करें और बर्नआउट से बचें",
+      "कार्य और समय सीमा के साथ व्यवस्थित रहें",
+      "अपने शैक्षणिक डेटा से अंतर्दृष्टि प्राप्त करें"
+    ],
+    whyMission: "हमारा मिशन है कि हर छात्र को अपने शिक्षण यात्रा को नियंत्रित करने और अकादमिक और भावनात्मक रूप से सर्वश्रेष्ठ प्रदर्शन करने के लिए सशक्त बनाना।",
+    evidenceTitle: "साक्ष्य आधारित लाभ",
+    evidence1: "✔ जब छात्र अध्ययन लक्ष्यों और विचारों को ट्रैक करते हैं तो तनाव 45% कम होता है।",
+    evidence2: "✔ संरचित योजनाकारों में रिपोर्ट किए गए समय के उपयोग में 31% की वृद्धि।",
+    evidence3: "StudyPlanner जैसे उपकरणों का समर्थन <em>UNSW Cognitive Science</em> और <em>NSW Ed. Research Council</em> द्वारा किया जाता है।",
+    evidenceList: [
+      "बेहतर अकादमिक ध्यान",
+      "स्वस्थ कार्यभार संतुलन",
+      "कम छूटे हुए समय सीमा"
+    ],
+    tipsTitle: "स्मार्ट अध्ययन टिप्स",
+    tip1Title: "पहले से योजना बनाएं",
+    tip1Text: "अंतिम समय की तनाव से बचने के लिए दैनिक कार्य बोर्ड का उपयोग करें।",
+    tip2Title: "नियमित रूप से विचार करें",
+    tip2Text: "केंद्रित और भावनात्मक रूप से जागरूक रहने के लिए दैनिक चेक-इन का उपयोग करें।",
+    tip3Title: "प्रगति ट्रैक करें",
+    tip3Text: "अकादमिक पैटर्न की निगरानी के लिए साप्ताहिक डैशबोर्ड पर जाएं।",
+    insightsTitle: "HSC छात्रों से प्रमुख अंतर्दृष्टि",
+    insightsIntro: "NSW शिक्षा विभाग की कल्याण सर्वेक्षण (मुझसे बताओ) प्रकट करते हैं:",
+    insightsList: [
+      "~70% छात्र समय प्रबंधन में संघर्ष करने की रिपोर्ट करते हैं।",
+      "60% से अधिक परीक्षा के दौरान बर्नआउट महसूस करते हैं।",
+      "एक महत्वपूर्ण हिस्सा योजना या ट्रैकिंग की कमी के कारण समय सीमा चूक जाता है।"
+    ],
+    chartLabel: "प्रभावित छात्रों का प्रतिशत",
+    chartLabels: ["अव्यवस्थित", "", "चूकी हुई समय सीमा", "", "बर्नआउट", "", "कोई ट्रैकिंग नहीं"],
+    dashboardCardDesc: "मूड चार्ट और कार्य सारांश के माध्यम से अपने प्रदर्शन का दृश्यात्मक रूप देखें।",
+    checkinCardDesc: "अपने मूड, अध्ययन पर ध्यान केंद्रित करें, और प्रत्येक दिन स्पष्टता के साथ विचार करें।",
+    tasksCardDesc: "समय सीमा, दैनिक लक्ष्यों और स्मार्ट अनुस्मारकों के साथ व्यवस्थित रहें।",
+    settingsCardDesc: "सेटिंग्स समायोजित करके थीम स्विच करें, डेटा रीसेट करें या लॉग को CSV में निर्यात करें।"
   }
 };
 
@@ -247,32 +423,84 @@ function applyHomeTranslations() {
   const lang = localStorage.getItem('language') || 'en';
   const t = translations[lang] || translations['en'];
   if(document.querySelector('.welcome-section h2'))
-    document.querySelector('.welcome-section h2').textContent = t.homeTitle;
+    document.querySelector('.welcome-section h2').innerHTML = t.homeTitle;
   if(document.querySelector('.welcome-section p'))
     document.querySelector('.welcome-section p').textContent = t.homeSubtitle;
-  const btns = document.querySelectorAll('.feature-card .btn');
-  if(btns.length >= 4) {
-    btns[0].textContent = t.goToDashboard;
-    btns[1].textContent = t.startCheckin;
-    btns[2].textContent = t.viewTaskBoard;
-    btns[3].textContent = t.openSettings;
+  // Feature cards
+  const featureCards = document.querySelectorAll('.feature-card');
+  if(featureCards.length >= 4) {
+    featureCards[0].querySelector('h3').textContent = t.dashboard;
+    featureCards[0].querySelector('p').textContent = t.dashboardCardDesc || "Visualise your performance through mood charts and task summaries.";
+    featureCards[0].querySelector('a').textContent = t.goToDashboard;
+    featureCards[1].querySelector('h3').textContent = t.checkin;
+    featureCards[1].querySelector('p').textContent = t.checkinCardDesc || "Log your mood, study focus, and reflections each day with clarity.";
+    featureCards[1].querySelector('a').textContent = t.startCheckin;
+    featureCards[2].querySelector('h3').textContent = t.tasks;
+    featureCards[2].querySelector('p').textContent = t.tasksCardDesc || "Stay organised with deadlines, daily targets and smart reminders.";
+    featureCards[2].querySelector('a').textContent = t.viewTaskBoard;
+    featureCards[3].querySelector('h3').textContent = t.settings;
+    featureCards[3].querySelector('p').textContent = t.settingsCardDesc || "Switch themes, reset data or export logs to CSV by adjusting settings.";
+    featureCards[3].querySelector('a').textContent = t.openSettings;
   }
+  // Impact/Info Cards
+  const whyTitle = document.querySelector('.why-we-built h2');
+  if(whyTitle) whyTitle.innerHTML = t.whyTitle;
+  const whyList = document.querySelectorAll('.why-we-built ul li');
+  if(whyList.length && t.whyList) {
+    whyList.forEach((li, i) => { if(t.whyList[i]) li.textContent = t.whyList[i]; });
+  }
+  const whyMission = document.querySelector('.why-we-built p:last-of-type');
+  if(whyMission) whyMission.textContent = t.whyMission;
+  const evidenceTitle = document.querySelector('.info-card h3');
+  if(evidenceTitle) evidenceTitle.textContent = t.evidenceTitle;
+  const evidencePs = document.querySelectorAll('.info-card p');
+  if(evidencePs.length >= 3) {
+    evidencePs[0].innerHTML = t.evidence1;
+    evidencePs[1].innerHTML = t.evidence2;
+    evidencePs[2].innerHTML = t.evidence3;
+  }
+  const evidenceList = document.querySelectorAll('.info-card ul li');
+  if(evidenceList.length && t.evidenceList) {
+    evidenceList.forEach((li, i) => { if(t.evidenceList[i]) li.textContent = t.evidenceList[i]; });
+  }
+  // Smart Study Tips
+  const tipsTitle = document.querySelector('.smart-tips h2');
+  if(tipsTitle) tipsTitle.textContent = t.tipsTitle;
+  const tipCards = document.querySelectorAll('.smart-tips .tip-card');
+  if(tipCards.length >= 3) {
+    tipCards[0].querySelector('h3').textContent = t.tip1Title;
+    tipCards[0].querySelector('p').textContent = t.tip1Text;
+    tipCards[1].querySelector('h3').textContent = t.tip2Title;
+    tipCards[1].querySelector('p').textContent = t.tip2Text;
+    tipCards[2].querySelector('h3').textContent = t.tip3Title;
+    tipCards[2].querySelector('p').textContent = t.tip3Text;
+  }
+  // Insights
+  const insightsTitle = document.querySelector('.impact-column:not(.why-we-built):not(.smart-tips) h2');
+  if(insightsTitle) insightsTitle.innerHTML = t.insightsTitle;
+  const insightsIntro = document.querySelector('.impact-column:not(.why-we-built):not(.smart-tips) p');
+  if(insightsIntro) insightsIntro.childNodes[0].textContent = t.insightsIntro;
+  const insightsList = document.querySelectorAll('.impact-column:not(.why-we-built):not(.smart-tips) ul li');
+  if(insightsList.length && t.insightsList) {
+    insightsList.forEach((li, i) => { if(t.insightsList[i]) li.textContent = t.insightsList[i]; });
+  }
+  // Chart
+  if(window.updateStudyStatsChart) window.updateStudyStatsChart(t);
   if(window.applyNavTranslations) window.applyNavTranslations();
+  if(window.applyDarkMode) window.applyDarkMode();
 }
-document.addEventListener('DOMContentLoaded', applyHomeTranslations);
-window.addEventListener('storage', applyHomeTranslations);
-</script>
-    </main>
-
-    <footer>
-      <p>&copy; 2025 StudyPlanner | Home Page
-      </p>
-    </footer>
-
-    <button class="page-nav-arrow left" id="prevPageBtn" title="Previous Page" style="display:none;"><span>&#x25C0;</span></button>
-    <button class="page-nav-arrow right" id="nextPageBtn" title="Next Page" style="display:none;"><span>&#x25B6;</span></button>
-    <script src="Shared.js"></script>
-    <script>
+// --- Ensure dark mode is always applied after translation ---
+function updateHomeTheme() {
+  if (window.applyDarkMode) window.applyDarkMode();
+}
+document.addEventListener('DOMContentLoaded', () => {
+  applyHomeTranslations();
+  updateHomeTheme();
+});
+window.addEventListener('storage', () => {
+  applyHomeTranslations();
+  updateHomeTheme();
+});
 // Page order for navigation
 const pageOrder = [
   'index.html',
@@ -295,8 +523,6 @@ if (nextBtn) {
   nextBtn.disabled = idx === pageOrder.length-1;
   nextBtn.onclick = idx < pageOrder.length-1 ? () => location.href = pageOrder[idx+1] : null;
 }
-</script>
-<script>
 // Real-time clock script (standardized to match settings page)
 function updateClock() {
   const now = new Date();

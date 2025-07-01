@@ -603,14 +603,52 @@ body.font-xlarge {
   font-size: 1.5em;
 }
 
-/* Force all text and backgrounds in .impact-column and .info-card to stay black on white in dark mode, fixing the faded/grey text issue in the lower boxes. */
-body.dark .impact-column, body.dark .info-card, body.dark-mode .impact-column, body.dark-mode .info-card {
+/* Remove forced white backgrounds for impact-column, info-card, and feature-card in dark mode */
+/* body.dark .impact-column, body.dark .info-card, body.dark-mode .impact-column, body.dark-mode .info-card {
   background: #fff !important;
   color: #181a1b !important;
 }
 body.dark .impact-column *, body.dark .info-card *,
 body.dark-mode .impact-column *, body.dark-mode .info-card * {
   color: #181a1b !important;
+} */
+
+/* Ensure feature-card, impact-column, and info-card use dark backgrounds and light text in dark mode */
+body.dark .feature-card, body.dark-mode .feature-card,
+body.dark .impact-column, body.dark-mode .impact-column,
+body.dark .info-card, body.dark-mode .info-card {
+  background: #23272f !important;
+  color: #f3f6fa !important;
+}
+body.dark .feature-card h3, body.dark-mode .feature-card h3,
+body.dark .impact-column h2, body.dark-mode .impact-column h2,
+body.dark .impact-column h3, body.dark-mode .impact-column h3,
+body.dark .info-card h3, body.dark-mode .info-card h3 {
+  color: #7bb8ff !important;
+}
+body.dark .feature-card p, body.dark-mode .feature-card p,
+body.dark .impact-column p, body.dark-mode .impact-column p,
+body.dark .info-card p, body.dark-mode .info-card p {
+  color: #cfd8e3 !important;
+}
+
+/* Ensure .form-card uses dark background and light text in dark mode */
+body.dark .form-card, body.dark-mode .form-card {
+  background: #232323 !important;
+  color: #f0f0f0 !important;
+}
+body.dark .form-card label, body.dark-mode .form-card label {
+  color: #b3d4ff !important;
+}
+body.dark .form-card input, body.dark-mode .form-card input,
+body.dark .form-card textarea, body.dark-mode .form-card textarea {
+  background: #181a1b !important;
+  color: #f0f0f0 !important;
+  border: 1px solid #444 !important;
+}
+body.dark .form-card input::placeholder, body.dark-mode .form-card input::placeholder,
+body.dark .form-card textarea::placeholder, body.dark-mode .form-card textarea::placeholder {
+  color: #bbb !important;
 }
 
 /* === Export CSV Button === */

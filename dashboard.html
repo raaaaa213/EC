@@ -7,20 +7,18 @@
     <link rel="stylesheet" href="Shared.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
   </head>
-  <body>
+  <body data-page="dashboard">
     <button class="page-nav-arrow left" id="prevPageBtn" title="Previous Page"><span>&#x25C0;</span></button>
     <button class="page-nav-arrow right" id="nextPageBtn" title="Next Page"><span>&#x25B6;</span></button>
-
     <header class="main-header">
       <div class="clock" id="realtimeClock"></div>
-      <h1>StudyPlanner</h1>
-      <p class="subtitle">Track Your Progress Visually</p>
+      <h1 id="bannerTitle">StudyPlanner</h1>
+      <p class="subtitle" id="bannerSubtitle"></p>
       <nav>
         <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="checkin.html">Daily Check-In</a></li>
           <li><a href="tasks.html">Task Board</a></li>
-          <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="settings.html">Settings</a></li>
         </ul>
       </nav>
@@ -100,97 +98,22 @@
     <script src="dashboard.js"></script>
     <script src="Shared.js"></script>
     <script>
-// === Simple i18n for StudyPlanner (shared for all pages) ===
-const translations = {
-  en: {
-    dashTitle: "Dashboard Overview",
-    dashSubtitle: "Visualise your study patterns, mood trends, and task completion progress over time.",
-    mood: "Mood Over Time",
-    hours: "Hours Spent Per Day",
-    progress: "Task Completion Rate"
-  },
-  es: {
-    dashTitle: "Resumen del Tablero",
-    dashSubtitle: "Visualiza tus patrones de estudio, tendencias de ánimo y progreso de tareas a lo largo del tiempo.",
-    mood: "Ánimo a lo largo del tiempo",
-    hours: "Horas dedicadas por día",
-    progress: "Tasa de finalización de tareas"
-  },
-  fr: {
-    dashTitle: "Aperçu du Tableau de bord",
-    dashSubtitle: "Visualisez vos habitudes d'étude, tendances d'humeur et progression des tâches au fil du temps.",
-    mood: "Humeur au fil du temps",
-    hours: "Heures passées par jour",
-    progress: "Taux d'achèvement des tâches"
-  },
-  zh: {
-    dashTitle: "仪表板概览",
-    dashSubtitle: "可视化你的学习模式、情绪趋势和任务完成进度。",
-    mood: "情绪变化",
-    hours: "每日学习时长",
-    progress: "任务完成率"
-  },
-  hi: {
-    dashTitle: "डैशबोर्ड अवलोकन",
-    dashSubtitle: "अपने अध्ययन पैटर्न, मूड ट्रेंड्स और कार्य पूर्णता प्रगति को समय के साथ देखें।",
-    mood: "समय के साथ मूड",
-    hours: "प्रति दिन बिताए गए घंटे",
-    progress: "कार्य पूर्णता दर"
-  }
-};
-function applyDashboardTranslations() {
+function setTutorialStepsFromLang() {
   const lang = localStorage.getItem('language') || 'en';
-  const t = translations[lang] || translations['en'];
-  if(document.querySelector('.welcome-section h2'))
-    document.querySelector('.welcome-section h2').textContent = t.dashTitle;
-  if(document.querySelector('.welcome-section p'))
-    document.querySelector('.welcome-section p').textContent = t.dashSubtitle;
-  const cards = document.querySelectorAll('.feature-card h3');
-  if(cards.length >= 2) {
-    cards[0].textContent = t.mood;
-    cards[1].textContent = t.hours;
-  }
-  if(window.applyNavTranslations) window.applyNavTranslations();
+  window.tutorialSteps = (window.dashboardTranslations[lang] || window.dashboardTranslations['en']).tutorialSteps;
 }
-document.addEventListener('DOMContentLoaded', applyDashboardTranslations);
-window.addEventListener('storage', applyDashboardTranslations);
-
-// === Tutorial Logic ===
-const tutorialSteps = [
-  "Welcome! This dashboard shows your mood and task progress. Click 'Next' to see how it works.",
-  "This graph shows your mood over time. A higher mood score means a better mood!",
-  "This graph shows your task completion rate. Aim for a higher percentage!",
-  "You're all set! Use the Task Board and Daily Check-In for detailed tracking."
-];
-let currentStep = 0;
-const tutorialStepDiv = document.getElementById('tutorialStep');
-const tutorialNextBtn = document.getElementById('tutorialNext');
-const tutorialPrevBtn = document.getElementById('tutorialPrev');
-
-function updateTutorialStep() {
-  tutorialStepDiv.textContent = tutorialSteps[currentStep];
-  tutorialPrevBtn.style.display = currentStep === 0 ? 'none' : '';
-  tutorialNextBtn.textContent = currentStep === tutorialSteps.length - 1 ? 'Finish' : 'Next';
-}
-
-tutorialNextBtn.addEventListener('click', () => {
-  if (currentStep < tutorialSteps.length - 1) {
-    currentStep++;
-    updateTutorialStep();
-  } else {
-    // Finish tutorial, maybe navigate to another page or just hide tutorial
-    document.querySelector('.tutorial-section').style.display = 'none';
-  }
-});
-
-tutorialPrevBtn.addEventListener('click', () => {
-  if (currentStep > 0) {
-    currentStep--;
-    updateTutorialStep();
-  }
-});
-
-updateTutorialStep();
+setTutorialStepsFromLang();
+window.updateTutorialStep = function() {
+  setTutorialStepsFromLang();
+  const tutorialStepDiv = document.getElementById('tutorialStep');
+  const tutorialPrevBtn = document.getElementById('tutorialPrev');
+  const tutorialNextBtn = document.getElementById('tutorialNext');
+  tutorialStepDiv.textContent = window.tutorialSteps[window.currentStep || 0];
+  tutorialPrevBtn.style.display = (window.currentStep || 0) === 0 ? 'none' : '';
+  tutorialNextBtn.textContent = (window.currentStep || 0) === window.tutorialSteps.length - 1 ? (window.dashboardChartTranslations[lang]?.finish || 'Finish') : (window.dashboardChartTranslations[lang]?.next || 'Next');
+};
+document.addEventListener('DOMContentLoaded', window.updateTutorialStep);
+window.addEventListener('storage', function(e) { if(e.key === 'language') window.updateTutorialStep(); });
 
 // === Dashboard Overview Navigation Arrows ===
 document.addEventListener('DOMContentLoaded', function() {
@@ -243,6 +166,41 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock(); // initial call to set clock immediately
+
+window.updateDashboardChartsWithTranslations = function(legends) {
+  // Example: update chart options for each chart if they exist
+  if(window.moodChartObj) {
+    window.moodChartObj.options.plugins.legend.labels = { ...window.moodChartObj.options.plugins.legend.labels, text: legends.mood };
+    window.moodChartObj.data.datasets[0].label = legends.mood;
+    window.moodChartObj.update();
+  }
+  if(window.hoursChartObj) {
+    window.hoursChartObj.options.plugins.legend.labels = { ...window.hoursChartObj.options.plugins.legend.labels, text: legends.hours };
+    window.hoursChartObj.data.datasets[0].label = legends.hours;
+    window.hoursChartObj.update();
+  }
+  if(window.taskChartObj) {
+    window.taskChartObj.data.datasets[0].label = legends.progress[0];
+    window.taskChartObj.data.datasets[1].label = legends.progress[1];
+    window.taskChartObj.update();
+  }
+  if(window.taskCompletionChartObj) {
+    window.taskCompletionChartObj.data.datasets[0].label = legends.completion;
+    window.taskCompletionChartObj.update();
+  }
+  if(window.tasksCompletedChartObj) {
+    window.tasksCompletedChartObj.data.datasets[0].label = legends.overdue;
+    window.tasksCompletedChartObj.update();
+  }
+  if(window.categoryChartObj) {
+    window.categoryChartObj.data.labels = legends.categories;
+    window.categoryChartObj.update();
+  }
+  if(window.priorityChartObj) {
+    window.priorityChartObj.data.labels = legends.priority;
+    window.priorityChartObj.update();
+  }
+};
     </script>
   </body>
 </html>

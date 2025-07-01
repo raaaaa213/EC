@@ -7,17 +7,16 @@
     <link rel="stylesheet" href="Shared.css" />
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
   </head>
-  <body>
+  <body data-page="checkin">
     <header class="main-header">
       <div class="clock" id="realtimeClock"></div>
-      <h1>StudyPlanner</h1>
-      <p class="subtitle">Daily Mood & Study Reflection</p>
+      <h1 id="bannerTitle">StudyPlanner</h1>
+      <p class="subtitle" id="bannerSubtitle"></p>
       <nav>
         <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="checkin.html">Daily Check-In</a></li>
           <li><a href="tasks.html">Task Board</a></li>
-          <li><a href="dashboard.html">Dashboard</a></li>
           <li><a href="settings.html">Settings</a></li>
         </ul>
       </nav>
@@ -75,7 +74,7 @@
     </footer>
 
     <script src="checkin.js"></script>
-    <script src="shared.js"></script>
+    <script src="Shared.js"></script>
     <script>
 // === Simple i18n for StudyPlanner (shared for all pages) ===
 const translations = {
@@ -189,6 +188,50 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock(); // initial call to set clock immediately
+
+function renderCheckinViewer(checkin) {
+  const lang = localStorage.getItem('language') || 'en';
+  const t = window.checkinViewTranslations[lang] || window.checkinViewTranslations['en'];
+  const viewer = document.querySelector('.checkin-viewer');
+  if (!viewer) return;
+  let html = '';
+  if (checkin) {
+    html += `<strong>${t.mood}</strong> ${checkin.mood}<br>`;
+    html += `<strong>${t.reflection}</strong> ${checkin.reflection}<br>`;
+    html += `<strong>${t.hours}</strong> ${checkin.hours}<br>`;
+    html += `<strong>${t.goal}</strong> ${checkin.goal}<br>`;
+  } else {
+    html += `<span>${t.notFound}</span>`;
+  }
+  // Replace only the details section, not the title/subtitle/buttons
+  const detailsDiv = viewer.querySelector('.checkin-details');
+  if (detailsDiv) {
+    detailsDiv.innerHTML = html;
+  } else {
+    const div = document.createElement('div');
+    div.className = 'checkin-details';
+    div.innerHTML = html;
+    viewer.appendChild(div);
+  }
+}
+// Example usage: renderCheckinViewer(checkinObj) or renderCheckinViewer(null)
+window.renderCheckinViewer = renderCheckinViewer;
+
+// Ensure this function is called on every date change and arrow click
+function onCheckinDateChange(newCheckinObj) {
+  window.currentCheckinObj = newCheckinObj;
+  window.renderCheckinViewer(newCheckinObj);
+}
+// Example: Hook this up to your date picker and arrow navigation logic
+// Whenever the date changes, call onCheckinDateChange(checkinObj)
+
+// Call renderCheckinViewer with the correct checkin object whenever the date changes or language changes
+window.addEventListener('storage', function(e) {
+  if(e.key === 'language') {
+    // Always re-render the current check-in view with the latest language
+    window.renderCheckinViewer(window.currentCheckinObj);
+  }
+});
     </script>
   </body>
 </html>

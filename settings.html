@@ -7,18 +7,16 @@
   <link rel="stylesheet" href="Shared.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
 </head>
-<body>
+<body data-page="settings">
   <header class="main-header">
     <div class="clock" id="realtimeClock"></div>
     <h1>StudyPlanner</h1>
-    <p class="subtitle">Customise Your Experience</p>
     <nav>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="checkin.html">Daily Check-In</a></li>
         <li><a href="tasks.html">Task Board</a></li>
         <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="settings.html">Settings</a></li>
       </ul>
     </nav>
   </header>
@@ -55,13 +53,27 @@
         <option value="fr">Français</option>
         <option value="zh">中文</option>
         <option value="hi">हिन्दी</option>
+        <option value="de">Deutsch</option>
+        <option value="it">Italiano</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+        <option value="ru">Русский</option>
+        <option value="ar">العربية</option>
+        <option value="pt">Português</option>
+        <option value="tr">Türkçe</option>
+        <option value="pl">Polski</option>
+        <option value="nl">Nederlands</option>
+        <option value="sv">Svenska</option>
+        <option value="uk">Українська</option>
+        <option value="vi">Tiếng Việt</option>
+        <option value="th">ไทย</option>
       </select>
     </section>
 
     <section class="form-card">
       <h3>Data</h3>
-      <button id="exportCSV" class="btn">Export Check-ins to CSV</button>
-      <button id="resetAll" class="btn danger">Reset All Data</button>
+      <button id="exportCSV" class="btn export-btn">Export Check-ins to CSV</button>
+      <button id="resetAll" class="btn danger reset-btn">Reset All Data</button>
     </section>
 
     <section class="form-card">
@@ -103,184 +115,14 @@
 
   <script src="settings.js"></script>
   <script src="Shared.js"></script>
-  <!--
-    Inline script for settings page:
-    - Handles i18n (translations) for UI elements
-    - Manages navigation between pages
-    - Controls admin info modal behavior
-    - Applies dynamic text and event handlers for settings features
-  -->
   <script>
-// === Simple i18n for StudyPlanner (shared for all pages) ===
-const translations = {
-  en: {
-    settingsTitle: "Settings",
-    settingsSubtitle: "Adjust preferences, reset data, and control appearance.",
-    appearance: "Appearance",
-    darkMode: "Toggle Dark Mode",
-    fontSize: "Font Size (AU):",
-    language: "Language",
-    chooseLanguage: "Choose Language:",
-    data: "Data",
-    resetAll: "Reset All Data",
-    exportCSV: "Export Check-ins to CSV",
-    admin: "Administrator",
-    adminInfo: "Administrator mode allows teachers to demo features, add check-ins for any date, and access extra controls.",
-    enableAdmin: "Enable Administrator Mode",
-    addDemoCheckins: "Add Demo Check-Ins",
-    addDemoTasks: "Add Demo Tasks",
-    theme: "Theme",
-    systemDefault: "System Default",
-    lightTheme: "Light",
-    darkTheme: "Dark"
-  },
-  es: {
-    settingsTitle: "Configuración",
-    settingsSubtitle: "Ajusta preferencias, restablece datos y controla la apariencia.",
-    appearance: "Apariencia",
-    darkMode: "Alternar modo oscuro",
-    fontSize: "Tamaño de fuente:",
-    language: "Idioma",
-    chooseLanguage: "Elige idioma:",
-    data: "Datos",
-    resetAll: "Restablecer todos los datos",
-    exportCSV: "Exportar registros a CSV",
-    admin: "Administrador",
-    adminInfo: "El modo administrador permite a los profesores demostrar funciones, agregar registros para cualquier fecha y acceder a controles adicionales.",
-    enableAdmin: "Habilitar modo administrador",
-    addDemoCheckins: "Agregar registros de demostración",
-    addDemoTasks: "Agregar tareas de demostración",
-    theme: "Tema",
-    systemDefault: "Predeterminado del sistema",
-    lightTheme: "Claro",
-    darkTheme: "Oscuro"
-  },
-  fr: {
-    settingsTitle: "Paramètres",
-    settingsSubtitle: "Ajustez les préférences, réinitialisez les données et contrôlez l'apparence.",
-    appearance: "Apparence",
-    darkMode: "Basculer en mode sombre",
-    fontSize: "Taille de police :",
-    language: "Langue",
-    chooseLanguage: "Choisir la langue :",
-    data: "Données",
-    resetAll: "Réinitialiser toutes les données",
-    exportCSV: "Exporter les enregistrements en CSV",
-    admin: "Administrateur",
-    adminInfo: "Le mode administrateur permet aux enseignants de démontrer des fonctionnalités, d'ajouter des enregistrements pour n'importe quelle date et d'accéder à des contrôles supplémentaires.",
-    enableAdmin: "Activer le mode administrateur",
-    addDemoCheckins: "Ajouter des enregistrements de démonstration",
-    addDemoTasks: "Ajouter des tâches de démonstration",
-    theme: "Thème",
-    systemDefault: "Défaut du système",
-    lightTheme: "Clair",
-    darkTheme: "Sombre"
-  },
-  zh: {
-    settingsTitle: "设置",
-    settingsSubtitle: "调整偏好、重置数据并控制外观。",
-    appearance: "外观",
-    darkMode: "切换深色模式",
-    fontSize: "字体大小：",
-    language: "语言",
-    chooseLanguage: "选择语言：",
-    data: "数据",
-    resetAll: "重置所有数据",
-    exportCSV: "导出签到到CSV",
-    admin: "管理员",
-    adminInfo: "管理员模式允许教师演示功能，为任何日期添加签到，并访问额外的控制选项。",
-    enableAdmin: "启用管理员模式",
-    addDemoCheckins: "添加演示签到",
-    addDemoTasks: "添加演示任务",
-    theme: "主题",
-    systemDefault: "系统默认",
-    lightTheme: "明亮",
-    darkTheme: "黑暗"
-  },
-  hi: {
-    settingsTitle: "सेटिंग्स",
-    settingsSubtitle: "प्राथमिकताएँ समायोजित करें, डेटा रीसेट करें और रूप नियंत्रित करें।",
-    appearance: "रूप",
-    darkMode: "डार्क मोड टॉगल करें",
-    fontSize: "फ़ॉन्ट आकार:",
-    language: "भाषा",
-    chooseLanguage: "भाषा चुनें:",
-    data: "डेटा",
-    resetAll: "सभी डेटा रीसेट करें",
-    exportCSV: "चेक-इन को CSV में निर्यात करें",
-    admin: "व्यवस्थापक",
-    adminInfo: "व्यवस्थापक मोड शिक्षकों को सुविधाएँ प्रदर्शित करने, किसी भी तारीख के लिए चेक-इन जोड़ने और अतिरिक्त नियंत्रणों तक पहुँचने की अनुमति देता है।",
-    enableAdmin: "व्यवस्थापक मोड सक्षम करें",
-    addDemoCheckins: "डेमो चेक-इन जोड़ें",
-    addDemoTasks: "डेमो कार्य जोड़ें",
-    theme: "थीम",
-    systemDefault: "सिस्टम डिफ़ॉल्ट",
-    lightTheme: "हल्का",
-    darkTheme: "गहरा"
-  }
-};
-function applySettingsTranslations() {
-  const lang = localStorage.getItem('language') || 'en';
-  const t = translations[lang] || translations['en'];
-  if(document.querySelector('.welcome-section h2'))
-    document.querySelector('.welcome-section h2').textContent = t.settingsTitle;
-  if(document.querySelector('.welcome-section p'))
-    document.querySelector('.welcome-section p').textContent = t.settingsSubtitle;
-  const cards = document.querySelectorAll('.form-card');
-  if(cards.length >= 3) {
-    cards[0].querySelector('h3').textContent = t.appearance;
-    cards[0].querySelector('#toggleDark').textContent = t.darkMode;
-    cards[0].querySelector('label[for="fontSizeSelect"]').textContent = t.fontSize;
-    cards[0].querySelector('label[for="themeSelect"]').textContent = t.theme;
-    cards[1].querySelector('h3').textContent = t.language;
-    cards[1].querySelector('label[for="languageSelect"]').textContent = t.chooseLanguage;
-    cards[2].querySelector('h3').textContent = t.data;
-    cards[2].querySelector('#resetAll').textContent = t.resetAll;
-    cards[2].querySelector('#exportCSV').textContent = t.exportCSV;
-  }
-  if(cards.length >= 4) {
-    // Update admin h3 text and info icon title without replacing the SVG
-    const adminLabel = cards[3].querySelector('label[for="adminToggle"]');
-    if (adminLabel) {
-      // Find the text node after the input and update it, or append if missing
-      const input = adminLabel.querySelector('input[type="checkbox"]');
-      if (input) {
-        // Remove all text nodes after the input
-        while (input.nextSibling) {
-          adminLabel.removeChild(input.nextSibling);
-        }
-        adminLabel.appendChild(document.createTextNode(' ' + t.enableAdmin));
-      }
-    }
-    if (adminH3) {
-      // Find the text node and the info icon span
-      const adminInfoSpan = adminH3.querySelector('#adminInfoIcon');
-      // Set the text before the icon
-      if (adminH3.childNodes.length > 0) {
-        // If first node is a text node, update it; else insert one
-        if (adminH3.childNodes[0].nodeType === Node.TEXT_NODE) {
-          adminH3.childNodes[0].textContent = t.admin + " ";
-        } else {
-          adminH3.insertBefore(document.createTextNode(t.admin + " "), adminInfoSpan);
-        }
-      }
-      // Update the info icon's title
-      if (adminInfoSpan) {
-        adminInfoSpan.title = t.adminInfo;
-      }
-    }
-    cards[3].querySelector('label[for="adminToggle"]').textContent = t.enableAdmin;
-    const adminFeatures = cards[3].querySelector('#adminFeatures');
-    if(adminFeatures) {
-      adminFeatures.querySelector('#addDemoCheckins').textContent = t.addDemoCheckins;
-      adminFeatures.querySelector('#addDemoTasks').textContent = t.addDemoTasks;
-    }
-  }
-  if(window.applyNavTranslations) window.applyNavTranslations();
-}
-document.addEventListener('DOMContentLoaded', applySettingsTranslations);
-window.addEventListener('storage', applySettingsTranslations);
-
+    if (window.applySettingsTranslations) window.applySettingsTranslations();
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'language' && window.applySettingsTranslations) window.applySettingsTranslations();
+    });
+  </script>
+  <!-- Remove the old inline translation script below, as Shared.js now handles all translations for settings. -->
+  <script>
 // Admin info modal
 const adminInfoIcon = document.getElementById('adminInfoIcon');
 const adminInfoModal = document.getElementById('adminInfoModal');
