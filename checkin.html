@@ -14,8 +14,8 @@
       <p class="subtitle" id="bannerSubtitle"></p>
       <nav>
         <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
           <li><a href="dashboard.html">Dashboard</a></li>
-          <li><a href="checkin.html">Daily Check-In</a></li>
           <li><a href="tasks.html">Task Board</a></li>
           <li><a href="settings.html">Settings</a></li>
         </ul>
@@ -180,11 +180,12 @@ if (nextBtn && idx < pageOrder.length-1) {
 }
 
 // === Realtime Clock ===
-// Real-time clock script (standardized to match settings page)
+// Real-time clock and date script (pretty format, no year)
 function updateClock() {
   const now = new Date();
-  const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-  document.getElementById('realtimeClock').textContent = now.toLocaleTimeString('en-US', options);
+  const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: '2-digit' });
+  const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+  document.getElementById('realtimeClock').textContent = `${dateStr} | ${timeStr}`;
 }
 setInterval(updateClock, 1000);
 updateClock(); // initial call to set clock immediately

@@ -17,10 +17,10 @@
       <p class="subtitle" id="bannerSubtitle"></p>
       <nav>
         <ul class="nav-links">
-          <a href="dashboard.html">Dashboard</a>
-          <a href="checkin.html">Daily Check-In</a>
-          <a href="tasks.html">Task Board</a>
-          <a href="settings.html">Settings</a>
+          <li><a href="checkin.html">Daily Check-In</a></li>
+          <li><a href="tasks.html">Task Board</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="settings.html">Settings</a></li>
         </ul>
       </nav>
     </header>
@@ -145,6 +145,9 @@
 window.updateStudyStatsChart = function(t) {
   const ctx = document.getElementById('studyStats').getContext('2d');
   if (window.studyStatsChart) window.studyStatsChart.destroy();
+  // Detect dark mode
+  const isDark = document.body.classList.contains('dark') || document.body.classList.contains('dark-mode');
+  const axisColor = isDark ? '#fff' : '#333';
   window.studyStatsChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -159,12 +162,21 @@ window.updateStudyStatsChart = function(t) {
       indexAxis: 'x',
       plugins: { legend: { display: false } },
       scales: {
-        y: { beginAtZero: true, max: 100, ticks: { stepSize: 20, color: '#333' } },
-        x: { ticks: { color: '#333', font: { family: 'Equillbrium, Segoe UI, Arial, sans-serif', size: 10 }, maxRotation: 38, minRotation: 38, align: 'center', autoSkip: false, padding: 20 }, min: -0.5, max: 3.5, grid: { drawTicks: false } }
+        y: { beginAtZero: true, max: 100, ticks: { stepSize: 20, color: axisColor } },
+        x: { ticks: { color: axisColor, font: { family: 'Equillbrium, Segoe UI, Arial, sans-serif', size: 10 }, maxRotation: 38, minRotation: 38, align: 'center', autoSkip: false, padding: 20 }, min: -0.5, max: 3.5, grid: { drawTicks: false } }
       }
     }
   });
 };
+
+// Re-render chart on dark mode toggle
+window.addEventListener('storage', function(e) {
+  if ((e.key === 'theme' || e.key === 'dark') && window.updateStudyStatsChart && window.studyPlannerTranslations) {
+    const lang = localStorage.getItem('language') || 'en';
+    const t = window.studyPlannerTranslations[lang] || window.studyPlannerTranslations['en'];
+    window.updateStudyStatsChart(t);
+  }
+});
 // === Simple i18n for StudyPlanner (shared for all pages) ===
 const translations = {
   en: {
@@ -523,11 +535,12 @@ if (nextBtn) {
   nextBtn.disabled = idx === pageOrder.length-1;
   nextBtn.onclick = idx < pageOrder.length-1 ? () => location.href = pageOrder[idx+1] : null;
 }
-// Real-time clock script (standardized to match settings page)
+// Real-time clock and date script (pretty format, no year)
 function updateClock() {
   const now = new Date();
-  const options = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-  document.getElementById('realtimeClock').textContent = now.toLocaleTimeString('en-US', options);
+  const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: '2-digit' });
+  const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+  document.getElementById('realtimeClock').textContent = `${dateStr} | ${timeStr}`;
 }
 setInterval(updateClock, 1000);
 updateClock(); // initial call to set clock immediately
